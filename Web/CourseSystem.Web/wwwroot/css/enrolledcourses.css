@@ -1,0 +1,170 @@
+/*!
+ * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+ */
+@import url('fontawesome/css/all.css');
+
+body {
+  overflow-x: hidden;
+}
+
+.sidebar-bg{
+  background-color: #2e4057;
+  color:white;
+}
+
+#sidebar-wrapper {
+  position: relative;
+  z-index: 20;
+  height:100%;
+  min-height: 100vh;
+  margin-left: -15rem;
+  -webkit-transition: margin .25s ease-out;
+  -moz-transition: margin .25s ease-out;
+  -o-transition: margin .25s ease-out;
+  transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+  width: 15rem;
+}
+
+#page-content-wrapper {
+  min-width: 100vw;
+}
+
+.searchbar{
+  margin-top: 2em;
+  height: 60px;
+  background-color: #2e4057;
+  border-radius: 30px;
+  padding: 10px;
+  }
+
+  .search_input{
+  color: white;
+  border: 0;
+  outline: 0;
+  background: none;
+  width: 0;
+  caret-color:transparent;
+  line-height: 40px;
+  transition: width 0.4s linear;
+  }
+
+  .searchbar:hover > .search_input{
+  padding: 0 10px;
+  width: 450px;
+  caret-color:#da4167;
+  transition: width 0.4s linear;
+  }
+
+  .searchbar:hover > .search_icon{
+  background: white;
+  color: #e74c3c;
+  }
+
+  .search_icon{
+  height: 40px;
+  width: 40px;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color:white;
+  text-decoration:none;
+  }
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: 0;
+}
+
+div.course img{
+  width: 15em;
+  height: 15em;
+  border-radius: 15px;
+  border: 1px solid #083d77 !important;
+}
+
+div.course{
+  background-color: #f6d8ae;
+  display: flex; 
+  margin: 1em;
+  padding: 1em;
+  border: 2px solid #2E4057;
+  border-radius: 15px;
+}
+
+div.course > div{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1em;
+}
+
+div.progress, h1.title, div.lower{
+  width:100%
+}
+
+div.lower{
+  display: flex;
+  justify-content: end;
+  height: 3em;
+}
+
+div.lower h3{
+  display: flex;
+  margin-right: 1em;
+  margin-bottom: 0;
+  align-items: center;
+}
+
+div.progress{
+  border: 1px solid #083d77 !important;
+}
+
+div.progress-bar{
+  background-color: #083d77 !important;
+}
+
+div.next{
+  width: 5em;
+  background-color: #083d77;
+  color: white;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media(max-width:996px){
+
+    div.course {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 768px) {
+  #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -15rem;
+  }
+}
+
+

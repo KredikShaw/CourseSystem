@@ -10,7 +10,14 @@
     {
         public IActionResult Index()
         {
-            return this.View();
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.View("LoggedInIndex");
+            }
+            else
+            {
+                return this.View();
+            }
         }
 
         public IActionResult Privacy()
