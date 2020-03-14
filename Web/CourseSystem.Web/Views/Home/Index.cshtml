@@ -2,8 +2,52 @@
 @{
     this.ViewData["Title"] = "Home Page";
 }
+<section class="main-section">
+    <div class="heading-image-container">
+        <h1>Learn new skills in a fast and efficient way</h1>
+        <div class="break"></div>
+        <a asp-area="" asp-controller="Users" asp-action="Register" class="btn">Start learning now</a>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="jumbotron card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+        <div class="text-white text-center py-5 px-4">
+            <div>
+                <h2 class="card-title h1 pt-3 mb-5 font-bold txtshadow"><strong>Learn or Teach</strong></h2>
+                <p class="mx-5 mb-5 h4 txtshadow">Learn new skills from various courses created by staff and users or create a course to share your knowledge with others.</p>
+                <a class="h2 btn text-white btn-outline-white btn-md txtshadow" style="font-size:1.75rem;   " asp-area="" asp-page="/Account/Register">
+                    <i class="fas fa-medal left"></i>
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="notes">
+    <ul class="ul">
+        <li class="li">
+            <div href="#" class="a">
+                <h2 class="h2">Simply Amazing!</h2>
+                <p class="p">I now use this app to learn and to teach. The best tool I've come across in over 10 years</p>
+            </div>
+        </li>
+        <li class="li">
+            <div href="#" class="a">
+                <h2 class="h2">Cool</h2>
+                <p class="p">Easy and fun It's a great app, I recommend it to everybody.</p>
+            </div>
+        </li>
+        <li class="li">
+            <div href="#" class="a">
+                <h2 class="h2">5 stars</h2>
+                <p class="p">The flash cards are great for memorizing new words and concepts</p>
+            </div>
+        </li>
+        <li class="li">
+            <div href="#" class="a">
+                <h2 class="h2">Fun and simple</h2>
+                <p class="p">I would definitely recommend this to anyone trying to learn a new skill</p>
+            </div>
+        </li>
+    </ul>
+</section>
