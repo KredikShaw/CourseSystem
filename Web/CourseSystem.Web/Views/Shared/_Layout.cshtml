@@ -7,16 +7,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="~/css/style.css" rel="stylesheet" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
 
     <environment names="Development">
         <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" asp-append-version="true" />
         <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+
+        <link href="~/css/style.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/enrolledcourses.css" rel="stylesheet" asp-append-version="true" />
     </environment>
     <environment names="Staging,Production">
         <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
         <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
+
+        <link href="~/css/style.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/enrolledcourses.css" rel="stylesheet" asp-append-version="true" />
     </environment>
 </head>
 <body>
@@ -26,7 +31,7 @@
             {
                 <button class="btn" id="menu-toggle"><i class="fas fa-ellipsis-v" style="font-size: 2em; color: white"></i></button>
             }
-            <a class="navbar-brand text-light lewu" asp-area="" asp-controller="Home" asp-action="Index"><img src="placeholder.png" alt="placeholder"></a>
+            <a class="navbar-brand text-light lewu" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/placeholder.png" alt="placeholder"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -68,14 +73,38 @@
             </div>
         </nav>
     </header>
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        <div class="d-flex" id="wrapper">
 
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main">
-            @this.RenderBody()
-        </main>
-    </div>
+            <!-- Sidebar -->
+            <div class="sidebar-bg" id="sidebar-wrapper">
+                <div class="sidebar-heading sidebar-bg">Profile</div>
+                <div class="list-group list-group-flush sidebar-bg">
+                    <a href="#" class="list-group-item list-group-item-action sidebar-bg">Enrolled Courses</a>
+                    <a href="#" class="list-group-item list-group-item-action sidebar-bg">Created Courses</a>
+                    <a asp-controller="Decks" asp-action="MyDecks" class="list-group-item list-group-item-action sidebar-bg">Decks</a>
+                </div>
+            </div>
 
+
+            <div class="container">
+                <partial name="_CookieConsentPartial" />
+                <main role="main">
+                    @this.RenderBody()
+                </main>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <partial name="_CookieConsentPartial" />
+            <main role="main">
+                @this.RenderBody()
+            </main>
+        </div>
+    }
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
@@ -83,6 +112,15 @@
         <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+
+        <!-- Menu Toggle Script -->
+        <script>
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+        </script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
@@ -90,6 +128,15 @@
         <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+
+        <!-- Menu Toggle Script -->
+        <script>
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+        </script>
     </environment>
 
     @this.RenderSection("Scripts", required: false)

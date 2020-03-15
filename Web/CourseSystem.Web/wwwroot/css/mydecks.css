@@ -1,0 +1,5 @@
+﻿@media(max-width:500px){
+    div.capsule div {
+        width: 100% !important;
+    }
+}
