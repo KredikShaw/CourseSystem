@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace CourseSystem.Data.Migrations
+﻿namespace CourseSystem.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class CreateCardsAndDecks : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +19,7 @@ namespace CourseSystem.Data.Migrations
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
-                    IsPublic = table.Column<bool>(nullable: false)
+                    IsPublic = table.Column<bool>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -42,7 +43,7 @@ namespace CourseSystem.Data.Migrations
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     FrontSide = table.Column<string>(nullable: true),
                     BackSide = table.Column<string>(nullable: true),
-                    DeckId = table.Column<string>(nullable: true)
+                    DeckId = table.Column<string>(nullable: true),
                 },
                 constraints: table =>
                 {

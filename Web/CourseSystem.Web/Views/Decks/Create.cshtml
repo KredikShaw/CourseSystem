@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="capsule d-flex justify-content-center h-100 mt-4">
+    <form method="post">
+        <div class="form-group">
+            <label for="name">Deck Name</label>
+            <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" placeholder="Name...">
+            <small id="emailHelp" class="form-text text-muted">Give your deck a descriptive name so that later you know what it's about</small>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="isPublic" id="public" value="Public" checked>
+            <label class="form-check-label" for="public">
+                Public
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="isPublic" id="private" value="Private">
+            <label class="form-check-label" for="private">
+                Private
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary button-color">Add Card</button>
+    </form>
+</div>

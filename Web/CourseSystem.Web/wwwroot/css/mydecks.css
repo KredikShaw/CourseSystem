@@ -3,3 +3,10 @@
         width: 100% !important;
     }
 }
+a{
+    color:white;
+}
+a:hover{
+    text-decoration:none;
+    text-decoration-color:white;
+}

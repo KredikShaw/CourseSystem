@@ -2,14 +2,23 @@
 @{
     ViewData["Title"] = "MyDecks";
 }
-    <link href="~/css/mydecks.css" rel="stylesheet" />
-    <div class="capsule d-flex flex-wrap">
-        <div class="card p-3 m-4" style="width: 20rem;">
-            <img class="card-img-top" src="~/placeholder.png" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Deck Title</h5>
-                <p class="card-text">Deck Description</p>
-                <a href="#" class="btn btn-primary">Go</a>
+<link href="~/css/mydecks.css" rel="stylesheet" />
+<section>
+    <section class="d-flex justify-content-center align-items-center p-3 m-4">
+        <h1 class="btn btn-primary font-weight-bolder" style="font-size:2.5rem; background-color:#2e4057">
+            <a asp-controller="Decks" asp-action="Create">+</a>
+        </h1>
+    </section>
+    <main>
+        <div class="capsule d-flex flex-wrap">
+            <div class="card p-3 m-4" style="width: 20rem;">
+                <img class="card-img-top" src="~/placeholder.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Deck Title</h5>
+                    <p class="card-text">Deck Description</p>
+                    <a href="#" class="btn btn-primary">Go</a>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
+</section>

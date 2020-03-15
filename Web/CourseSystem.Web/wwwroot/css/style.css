@@ -143,6 +143,10 @@ nav div ul {
     margin-right: 10em;
 }
 
+.button-color{
+    background-color: #2e4057;
+}
+
 nav a img {
     width: 2em;
 }
