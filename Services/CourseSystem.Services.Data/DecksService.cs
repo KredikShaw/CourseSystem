@@ -1,21 +1,22 @@
 ﻿namespace CourseSystem.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using CourseSystem.Data.Common.Repositories;
     using CourseSystem.Data.Models;
+    using CourseSystem.Services.Mapping;
     using Microsoft.AspNetCore.Identity;
 
     public class DecksService : IDecksService
     {
         private readonly IDeletableEntityRepository<Deck> decksRepository;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public DecksService(IDeletableEntityRepository<Deck> decksRepository, UserManager<ApplicationUser> userManager)
+        public DecksService(IDeletableEntityRepository<Deck> decksRepository)
         {
             this.decksRepository = decksRepository;
-            this.userManager = userManager;
         }
 
         public async Task CreateDeck(string name, string isPublic, string userId)
@@ -36,6 +37,17 @@
 
             await this.decksRepository.AddAsync(deck);
             await this.decksRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> GetDecks<T>(string userId)
+        {
+            var decks = this.decksRepository.All()
+                .Where(x => x.IsPublic == true || x.UserId == userId)
+                .OrderBy(x => x.UserId == userId)
+                .To<T>()
+                .ToList();
+
+            return decks;
         }
     }
 }

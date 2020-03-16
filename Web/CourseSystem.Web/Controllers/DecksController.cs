@@ -1,8 +1,11 @@
 ﻿namespace CourseSystem.Web.Controllers
 {
-    using CourseSystem.Services.Data;
-    using Microsoft.AspNetCore.Mvc;
     using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using CourseSystem.Services.Data;
+    using CourseSystem.Web.ViewModels.Decks;
+    using Microsoft.AspNetCore.Mvc;
 
     public class DecksController : Controller
     {
@@ -15,7 +18,11 @@
 
         public IActionResult MyDecks()
         {
-            return this.View("MyDecks");
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var decks = this.decksService.GetDecks<DeckViewModel>(userId);
+            var viewModel = new DisplayDecksViewModel();
+            viewModel.Decks = decks;
+            return this.View(viewModel);
         }
 
         public IActionResult Create()
@@ -24,10 +31,10 @@
         }
 
         [HttpPost]
-        public IActionResult Create(string name, string isPublic)
+        public async Task<IActionResult> Create(string name, string isPublic)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            this.decksService.CreateDeck(name, isPublic, userId);
+            await this.decksService.CreateDeck(name, isPublic, userId);
             return this.RedirectToAction("MyDecks");
         }
     }

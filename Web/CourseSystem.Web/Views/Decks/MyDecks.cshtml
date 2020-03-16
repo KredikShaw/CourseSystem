@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "MyDecks";
 }
+@model CourseSystem.Web.ViewModels.Decks.DisplayDecksViewModel;
+
 <link href="~/css/mydecks.css" rel="stylesheet" />
 <section>
     <section class="d-flex justify-content-center align-items-center p-3 m-4">
@@ -11,14 +13,24 @@
     </section>
     <main>
         <div class="capsule d-flex flex-wrap">
-            <div class="card p-3 m-4" style="width: 20rem;">
-                <img class="card-img-top" src="~/placeholder.png" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Deck Title</h5>
-                    <p class="card-text">Deck Description</p>
-                    <a href="#" class="btn btn-primary">Go</a>
+            @foreach (var deck in Model.Decks)
+            {
+                <div class="card p-3 m-4" style="width: 20rem;">
+                    <img class="card-img-top" src="~/placeholder.png" alt="placeholder">
+                    <div class="card-body">
+                        <h5 class="card-title">@deck.Name</h5>
+                        @if (deck.IsPublic == true)
+                        {
+                            <p class="card-text">Public</p>
+                        }
+                        else
+                        {
+                            <p class="card-text">Private</p>
+                        }
+                        <a href="#" class="btn btn-primary">Go</a>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     </main>
 </section>
