@@ -5,8 +5,12 @@
 
     public class DeckViewModel : IMapFrom<Deck>
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public bool IsPublic { get; set; }
+
+        public ApplicationUser User { get; set; }
     }
 }

@@ -7,8 +7,10 @@
 
     public interface IDecksService
     {
-        Task CreateDeck(string name, string isPublic, string userId);
+        Task<Deck> CreateDeck(string name, string isPublic, string userId);
 
         IEnumerable<T> GetDecks<T>(string userId);
+
+        Task DeleteDeck(string id);
     }
 }
