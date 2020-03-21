@@ -3,5 +3,20 @@
     ViewData["Title"] = "CreateCard";
 }
 
-<h1>@Model</h1>
-
+<div class="capsule d-flex justify-content-center h-100 mt-4">
+    <form method="post">
+        <div class="form-group">
+            <label for="name">Front Side</label>
+            <input type="text" class="form-control" id="frontSide" name="frontSide" placeholder="Front Side...">
+        </div>
+        <div class="form-group">
+            <label for="name">Back Side</label>
+            <input type="text" class="form-control" id="backSide" name="backSide" placeholder="Back Side...">
+        </div>
+        <div class="form-group">
+            <input type="hidden" class="form-control" id="deckId" name="deckId" value="@Model">
+        </div>
+        <button type="submit" class="btn btn-primary button-color" name="submitType" value="another">Add another card</button>
+        <button type="submit" class="btn btn-primary button-color" name="submitType" value="finish">Add card and finish deck</button>
+    </form>
+</div>

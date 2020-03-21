@@ -27,8 +27,7 @@
                         {
                             <p class="card-text">Private</p>
                         }
-                        @*<h7>@deck.User.UserName.Substring(0, deck.User.UserName.IndexOf("@"))</h7>*@
-                        <a href="#" class="btn btn-primary">Go</a>
+                        <a asp-action="PlayDeck" asp-route-deckId="@deck.Id" asp-route-name="@deck.Name" class="btn btn-primary">Start</a>
                         @if (this.User.Identity.Name == deck.User.UserName)
                         {
                             <a asp-action="DeleteDeck" asp-route-id="@deck.Id" class="btn btn-danger">Delete</a>

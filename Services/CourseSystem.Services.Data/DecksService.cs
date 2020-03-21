@@ -13,10 +13,25 @@
     public class DecksService : IDecksService
     {
         private readonly IDeletableEntityRepository<Deck> decksRepository;
+        private readonly IDeletableEntityRepository<Card> cardsRepository;
 
-        public DecksService(IDeletableEntityRepository<Deck> decksRepository)
+        public DecksService(IDeletableEntityRepository<Deck> decksRepository, IDeletableEntityRepository<Card> cardsRepository)
         {
             this.decksRepository = decksRepository;
+            this.cardsRepository = cardsRepository;
+        }
+
+        public async Task CreateCard(string frontSide, string backSide, string deckId)
+        {
+            var card = new Card
+            {
+                FrontSide = frontSide,
+                BackSide = backSide,
+                DeckId = deckId,
+            };
+
+            await this.cardsRepository.AddAsync(card);
+            await this.cardsRepository.SaveChangesAsync();
         }
 
         public async Task<Deck> CreateDeck(string name, string isPublic, string userId)
@@ -46,6 +61,12 @@
             var deck = this.decksRepository.All().FirstOrDefault(x => x.Id == id);
             this.decksRepository.Delete(deck);
             await this.decksRepository.SaveChangesAsync();
+        }
+
+        public List<Card> GetAllCardsFromDeck(string deckId)
+        {
+            var cards = this.cardsRepository.All().Where(x => x.DeckId == deckId).ToList();
+            return cards;
         }
 
         public IEnumerable<T> GetDecks<T>(string userId)

@@ -1,5 +1,6 @@
 ﻿namespace CourseSystem.Web
 {
+    using System;
     using System.Reflection;
 
     using CourseSystem.Data;
@@ -60,6 +61,7 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IDecksService, DecksService>();
+            services.AddTransient<Random, Random>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
