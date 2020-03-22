@@ -8,21 +8,29 @@
 <link href="~/css/style2.css" rel="stylesheet" />
 <link href="~/fontawesome/css/all.css" rel="stylesheet" />
 
-<section class="d-flex justify-content-center align-items-center text-center">
-    <div class="card" style="width: 18rem;">
+<div class="w-100 d-flex justify-content-end align-items-center">
+    <p style="margin:1em;">Passed: @Model.Passed</p>
+    <p style="margin:1em;">Failed: @Model.Failed</p>
+    <a asp-action="MyDecks" class="btn btn-primary text-white" style="font-size: 1em; margin:2em;">Finish</a>
+</div>
+<section class="d-flex justify-content-center align-items-center text-center h-75">
+    <div class="card shadow" id="flip" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">@Model.DeckName</h5>
             <h2 class="card-text">@Model.FrontSide</h2>
-            <a href="#" class="btn btn-primary" style="font-size: 1em;">Flip</a>
+            <a onclick="toggle()" class="btn btn-primary text-white" style="font-size: 1em;">Flip</a>
         </div>
     </div>
-    @* finish styling, use javascript for card flip, keep count? *@
-    <div class="card" style="width: 18rem;">
+    <div class="card shadow" id="flip2" style="width: 18rem; display:none;">
         <div class="card-body">
             <h5 class="card-title">@Model.DeckName</h5>
             <h2 class="card-text">@Model.BackSide</h2>
-            <a asp-action="PlayDeck" asp-route-deckId="@Model.DeckId" asp-route-name="@Model.DeckName" class="btn btn-danger" style="font-size: 1em; margin-right: 3em; width: 2em;"><i class="fas fa-times"></i></a>
-            <a asp-action="PlayDeck" asp-route-deckId="@Model.DeckId" asp-route-name="@Model.DeckName" class="btn btn-success" style="font-size: 1em; width: 2em;"><i class="fas fa-check"></i></a>
+            <a asp-action="PlayDeck" asp-route-deckId="@Model.DeckId" asp-route-name="@Model.DeckName" asp-route-npassed="@Model.Passed" asp-route-nfailed="@Model.Failed" asp-route-passed="no" class="btn btn-danger" style="font-size: 1em; margin-right: 3em; width: 2em;">
+                <i class="fas fa-times"></i>
+            </a>
+            <a asp-action="PlayDeck" asp-route-deckId="@Model.DeckId" asp-route-name="@Model.DeckName" asp-route-npassed="@Model.Passed" asp-route-nfailed="@Model.Failed" asp-route-passed="yes" class="btn btn-success" style="font-size: 1em; width: 2em;">
+                <i class="fas fa-check"></i>
+            </a>
         </div>
     </div>
 </section>

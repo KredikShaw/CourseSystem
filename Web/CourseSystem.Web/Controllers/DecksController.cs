@@ -76,11 +76,28 @@
             return this.RedirectToAction("MyDecks");
         }
 
-        public IActionResult PlayDeck(string deckId, string name)
+        public IActionResult PlayDeck(string deckId, string name, string passed, string npassed, string nfailed)
         {
+            int numberOfPassed = 0;
+            int numberOfFailed = 0;
+            if (npassed != null && nfailed != null)
+            {
+                numberOfPassed = int.Parse(npassed);
+                numberOfFailed = int.Parse(nfailed);
+            }
+
+            if (passed == "yes")
+            {
+                numberOfPassed++;
+            }
+            else if (passed == "no")
+            {
+                numberOfFailed++;
+            }
+
             var allCards = this.decksService.GetAllCardsFromDeck(deckId);
 
-            var randomIndex = this.random.Next(0, allCards.Count - 1);
+            var randomIndex = this.random.Next(0, allCards.Count);
 
             var card = allCards[randomIndex];
 
@@ -90,6 +107,8 @@
                 FrontSide = card.FrontSide,
                 BackSide = card.BackSide,
                 DeckName = name,
+                Passed = numberOfPassed,
+                Failed = numberOfFailed,
             };
 
             return this.View(viewModel);
