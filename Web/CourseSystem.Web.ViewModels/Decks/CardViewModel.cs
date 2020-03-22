@@ -1,6 +1,9 @@
 ﻿namespace CourseSystem.Web.ViewModels.Decks
 {
-    public class CardViewModel
+    using CourseSystem.Data.Models;
+    using CourseSystem.Services.Mapping;
+
+    public class CardViewModel : IMapFrom<Card>
     {
         public string DeckName { get; set; }
 

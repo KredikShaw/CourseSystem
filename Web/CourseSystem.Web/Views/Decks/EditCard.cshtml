@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "EditCard";
+}
+@model CourseSystem.Web.ViewModels.Decks.EditDeckCardViewModel
+
+<div class="capsule d-flex justify-content-center h-100 mt-4">
+    <form method="post">
+        <div class="form-group">
+            <label for="name">Front Side</label>
+            <input type="text" class="form-control" id="frontSide" name="frontSide" value="@Model.FrontSide">
+        </div>
+        <div class="form-group">
+            <label for="name">Back Side</label>
+            <input type="text" class="form-control" id="backSide" name="backSide" value="@Model.BackSide">
+        </div>
+        <div class="form-group">
+            <input type="hidden" class="form-control" id="deckId" name="cardId" value="@Model.Id">
+            <input type="hidden" class="form-control" id="deckId" name="deckId" value="@Model.DeckId">
+        </div>
+        <button type="submit" class="btn btn-primary button-color">Save Card</button>
+    </form>
+</div>
+

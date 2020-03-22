@@ -1,6 +1,7 @@
 ﻿namespace CourseSystem.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -76,6 +77,12 @@
             return this.RedirectToAction("MyDecks");
         }
 
+        public async Task<IActionResult> DeleteCard(string id, string deckId)
+        {
+            await this.decksService.DeleteCard(id);
+            return this.RedirectToAction("EditDeck", new { id = deckId });
+        }
+
         public IActionResult PlayDeck(string deckId, string name, string passed, string npassed, string nfailed)
         {
             int numberOfPassed = 0;
@@ -95,23 +102,38 @@
                 numberOfFailed++;
             }
 
-            var allCards = this.decksService.GetAllCardsFromDeck(deckId);
+            var allCards = this.decksService.GetCards<CardViewModel>(deckId).ToList();
 
             var randomIndex = this.random.Next(0, allCards.Count);
 
             var card = allCards[randomIndex];
+            card.Passed = numberOfPassed;
+            card.Failed = numberOfFailed;
+            return this.View(card);
+        }
 
-            var viewModel = new CardViewModel
+        public IActionResult EditDeck(string id)
+        {
+            var viewModel = new EditDeckViewModel
             {
-                DeckId = deckId,
-                FrontSide = card.FrontSide,
-                BackSide = card.BackSide,
-                DeckName = name,
-                Passed = numberOfPassed,
-                Failed = numberOfFailed,
+                DeckId = id,
+                Cards = this.decksService.GetCards<EditDeckCardViewModel>(id),
             };
 
             return this.View(viewModel);
+        }
+
+        public IActionResult EditCard(string id)
+        {
+            var viewModel = this.decksService.GetCard<EditDeckCardViewModel>(id);
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCard(string frontSide, string backSide, string cardId, string deckId)
+        {
+            await this.decksService.UpdateCard(frontSide, backSide, cardId);
+            return this.RedirectToAction("EditDeck", new { id = deckId });
         }
     }
 }

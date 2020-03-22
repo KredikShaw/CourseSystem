@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "EditDeck";
+}
+@model CourseSystem.Web.ViewModels.Decks.EditDeckViewModel
+
+    <section class="d-flex flex-wrap justify-content-start">
+        @foreach (var card in Model.Cards)
+        {
+            <div class="card shadow text-center" id="flip" style="width: 17rem; margin: 1em;">
+                <div class="card-header">
+                    <a asp-action="DeleteCard" asp-route-id="@card.Id" asp-route-deckId="@Model.DeckId" class="btn btn-danger">Delete</a>
+                    <a asp-action="EditCard" asp-route-id="@card.Id" class="btn btn-warning">Edit</a>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title">@card.FrontSide</h2>
+                    <h2 class="card-text">@card.BackSide</h2>
+                </div>
+            </div>
+        }
+    </section>
+

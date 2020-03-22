@@ -2,13 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using CourseSystem.Data.Common.Repositories;
     using CourseSystem.Data.Models;
     using CourseSystem.Services.Mapping;
-    using Microsoft.AspNetCore.Identity;
 
     public class DecksService : IDecksService
     {
@@ -56,6 +54,13 @@
             return deck;
         }
 
+        public async Task DeleteCard(string id)
+        {
+            var card = this.cardsRepository.All().FirstOrDefault(x => x.Id == id);
+            this.cardsRepository.Delete(card);
+            await this.cardsRepository.SaveChangesAsync();
+        }
+
         public async Task DeleteDeck(string id)
         {
             var deck = this.decksRepository.All().FirstOrDefault(x => x.Id == id);
@@ -63,9 +68,24 @@
             await this.decksRepository.SaveChangesAsync();
         }
 
-        public List<Card> GetAllCardsFromDeck(string deckId)
+        public T GetCard<T>(string cardId)
         {
-            var cards = this.cardsRepository.All().Where(x => x.DeckId == deckId).ToList();
+            var card = this.cardsRepository.All()
+                .Where(x => x.Id == cardId)
+                .To<T>()
+                .FirstOrDefault();
+
+            return card;
+        }
+
+        public IEnumerable<T> GetCards<T>(string deckId)
+        {
+            var cards = this.cardsRepository.All()
+                .Where(x => x.DeckId == deckId)
+                .OrderBy(x => x.FrontSide)
+                .To<T>()
+                .ToList();
+
             return cards;
         }
 
@@ -79,6 +99,18 @@
                 .ToList();
 
             return decks;
+        }
+
+        public async Task UpdateCard(string frontSide, string backSide, string id)
+        {
+            var card = this.cardsRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            card.FrontSide = frontSide;
+            card.BackSide = backSide;
+
+            this.cardsRepository.Update(card);
+            await this.cardsRepository.SaveChangesAsync();
         }
     }
 }

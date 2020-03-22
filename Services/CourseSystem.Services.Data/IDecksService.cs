@@ -15,6 +15,12 @@
 
         Task CreateCard(string frontSide, string backSide, string deckId);
 
-        List<Card> GetAllCardsFromDeck(string deckId);
+        IEnumerable<T> GetCards<T>(string deckId);
+
+        T GetCard<T>(string cardId);
+
+        Task DeleteCard(string id);
+
+        Task UpdateCard(string frontSide, string backSide, string id);
     }
 }
