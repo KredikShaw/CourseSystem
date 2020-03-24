@@ -17,6 +17,6 @@
             <input type="hidden" class="form-control" id="deckId" name="deckId" value="@Model">
         </div>
         <button type="submit" class="btn btn-primary button-color" name="submitType" value="another">Add another card</button>
-        <button type="submit" class="btn btn-primary button-color" name="submitType" value="finish">Add card and finish deck</button>
+        <button type="submit" class="btn btn-primary button-color" name="submitType" value="finish" asp-route-from="Edit Deck">Add card and Save deck</button>
     </form>
 </div>

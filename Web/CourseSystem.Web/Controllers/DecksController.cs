@@ -58,7 +58,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCard(string deckId, string frontSide, string backSide, string submitType)
+        public async Task<IActionResult> CreateCard(string from, string deckId, string frontSide, string backSide, string submitType)
         {
             await this.decksService.CreateCard(frontSide, backSide, deckId);
             if (submitType == "another")
@@ -67,6 +67,11 @@
             }
             else
             {
+                if (from == "Edit Deck")
+                {
+                    return this.RedirectToAction("EditDeck", new { id = deckId });
+                }
+
                 return this.RedirectToAction("MyDecks");
             }
         }
