@@ -5,6 +5,7 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
     using CourseSystem.Data;
     using CourseSystem.Data.Common;
     using CourseSystem.Data.Common.Repositories;
@@ -13,9 +14,6 @@
     using CourseSystem.Data.Seeding;
     using CourseSystem.Services.Data;
     using CourseSystem.Services.Messaging;
-
-    using CommandLine;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

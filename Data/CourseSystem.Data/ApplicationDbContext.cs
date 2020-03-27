@@ -30,6 +30,16 @@
 
         public DbSet<Card> Cards { get; set; }
 
+        public DbSet<Course> Courses { get; set; }
+
+        public DbSet<Lesson> Lesson { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<UserCourse> UsersCourses { get; set; }
+
+        public DbSet<Segment> Segments { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -55,6 +65,11 @@
             base.OnModelCreating(builder);
 
             this.ConfigureUserIdentityRelations(builder);
+
+            builder.Entity<UserCourse>(entity =>
+            {
+                entity.HasKey(x => new { x.UserId, x.CourseId });
+            });
 
             EntityIndexesConfiguration.Configure(builder);
 

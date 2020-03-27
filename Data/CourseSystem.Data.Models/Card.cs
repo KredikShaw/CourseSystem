@@ -17,6 +17,6 @@
 
         public string DeckId { get; set; }
 
-        public Deck Deck { get; set; }
+        public virtual Deck Deck { get; set; }
     }
 }

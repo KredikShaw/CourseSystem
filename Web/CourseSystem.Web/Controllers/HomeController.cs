@@ -12,7 +12,7 @@
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                return this.View("LoggedInIndex");
+                return this.Redirect("/Courses/EnrolledCourses");
             }
             else
             {

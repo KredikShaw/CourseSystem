@@ -41,10 +41,10 @@
                     @if (this.User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item active">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">My Courses<span class="sr-only">(current)</span></a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Courses" asp-action="EnrolledCourses">My Courses<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Discover" asp-action="Courses">Discover</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Courses" asp-action="Discover">Discover</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -81,8 +81,8 @@
             <div class="sidebar-bg" id="sidebar-wrapper">
                 <div class="sidebar-heading sidebar-bg">Profile</div>
                 <div class="list-group list-group-flush sidebar-bg">
-                    <a href="#" class="list-group-item list-group-item-action sidebar-bg">Enrolled Courses</a>
-                    <a href="#" class="list-group-item list-group-item-action sidebar-bg">Created Courses</a>
+                    <a asp-controller="Courses" asp-action="EnrolledCourses" class="list-group-item list-group-item-action sidebar-bg">Enrolled Courses</a>
+                    <a asp-controller="Courses" asp-action="CreatedCourses" class="list-group-item list-group-item-action sidebar-bg">Created Courses</a>
                     <a asp-controller="Decks" asp-action="MyDecks" class="list-group-item list-group-item-action sidebar-bg">Decks</a>
                 </div>
             </div>

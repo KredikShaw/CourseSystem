@@ -11,7 +11,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class DecksController : Controller
+    public class DecksController : Controller // TODO: Take the Card logic out of the deck logic and into it's own controller, service...
     {
         private readonly IDecksService decksService;
         private readonly UserManager<ApplicationUser> userManager;
@@ -67,7 +67,7 @@
             }
             else
             {
-                if (from == "Edit Deck")
+                if (from == "EditDeck")
                 {
                     return this.RedirectToAction("EditDeck", new { id = deckId });
                 }
@@ -88,7 +88,7 @@
             return this.RedirectToAction("EditDeck", new { id = deckId });
         }
 
-        public IActionResult PlayDeck(string deckId, string name, string passed, string npassed, string nfailed)
+        public IActionResult PlayDeck(string deckId, string passed, string npassed, string nfailed)
         {
             int numberOfPassed = 0;
             int numberOfFailed = 0;

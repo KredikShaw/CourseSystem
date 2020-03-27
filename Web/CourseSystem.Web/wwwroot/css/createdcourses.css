@@ -1,0 +1,10 @@
+div.edit{
+    width: 7.5em;
+    background-color: #083d77;
+    color: white;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

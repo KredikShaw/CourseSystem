@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "CreatedCourses";
+}
+
+
+<link href="~/css/enrolledcourses.css" rel="stylesheet">
+<link href="~/css/createdcourses.css" rel="stylesheet">
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        @*------ SEARCH BAR ------ *@
+        @*<div class="container">
+                <div class="d-flex justify-content-center">
+                    <div class="searchbar">
+                        <input class="search_input" type="text" name="" placeholder="Search...">
+                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                    </div>
+                </div>
+            </div>*@
+        <div class="ec-header">
+            <section class="d-flex justify-content-center align-items-center p-3 m-4">
+                <a asp-controller="Courses" asp-action="CreateCourse" class="btn btn-primary font-weight-bolder" style="font-size:2.5rem; background-color:#2e4057">Create New Course</a>
+            </section>
+        </div>
+        <div class="main">
+            <div class="course">
+                <img src="~/placeholder.png" alt="">
+                <div>
+                    <h1 class="title">Title</h1>
+                    <div class="lower">
+                        <h3>Difficulty: Hard</h3>
+                        <h3>Students enrolled: 11</h3>
+                        <div class="edit btn">Edit Course</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->

@@ -21,6 +21,6 @@
 
         public bool IsPublic { get; set; }
 
-        public ICollection<Card> Cards { get; set; }
+        public virtual ICollection<Card> Cards { get; set; }
     }
 }
