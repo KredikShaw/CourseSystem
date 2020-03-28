@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Discover";
+}
+@model CourseSystem.Web.ViewModels.Categories.CategoriesViewModel
+
+<section class="capsule d-flex flex-wrap p-4 justify-content-start">
+    <a asp-controller="Courses" asp-action="DiscoverAll">
+        <div class="card d-flex flex-wrap justify-content-center align-items-center m-2" style="width: 18rem;">
+            <img class="card-img-top p-4" src="https://res.cloudinary.com/alekskn99/image/upload/v1585390531/everything_2_wgwp1m.jpg" style="object-fit:cover; height:12em" alt="Card image cap">
+            <div class="card-body w-100">
+                <h3 class="card-title text-center">All Courses</h3>
+            </div>
+        </div>
+    </a>
+    @foreach (var category in Model.Categories)
+    {
+        <a asp-controller="Courses" asp-action="DiscoverByCategory" asp-route-categoryId="@category.Id">
+            <div class="card d-flex flex-wrap justify-content-center align-items-center m-2" style="width: 18rem;">
+                <img class="card-img-top p-4" src="@category.ImageUrl" style="object-fit:cover; height:12em" alt="Card image cap">
+                <div class="card-body w-100">
+                    <h3 class="card-title text-center">@category.Name</h3>
+                </div>
+            </div>
+        </a>
+    }
+</section>

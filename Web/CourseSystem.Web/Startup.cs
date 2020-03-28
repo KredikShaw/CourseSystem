@@ -65,6 +65,8 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IDecksService, DecksService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<ICoursesService, CoursesService>();
             services.AddTransient<Random, Random>();
         }
 
