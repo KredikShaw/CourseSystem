@@ -10,13 +10,13 @@
     @foreach (var course in Model.Courses)
     {
         <div class="course">
-            <img src="@course.ThumbnailUrl" alt="">
+            <img src="@course.ThumbnailUrl" alt="thumbnail">
             <div>
                 <h1 class="title">@course.Name</h1>
+                <p class="h5">@course.Description</p>
                 <div class="lower">
-                    <p>@course.Description</p>
-                    <h3>Difficulty: @course.Difficulty</h3>
                     <h3>Lessons: @course.LessonsCount</h3>
+                    <h3>Difficulty: @course.Difficulty</h3>
                     <h3>Students Enrolled: @course.EnrolledUsersCount</h3>
                     <div class="edit btn">Enroll</div>
                 </div>
