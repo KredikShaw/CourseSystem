@@ -25,5 +25,11 @@
 
             return categories;
         }
+
+        public int GetCategoryId(string name)
+        {
+            var id = this.categoriesRepository.All().FirstOrDefault(x => x.Name == name).Id;
+            return id;
+        }
     }
 }

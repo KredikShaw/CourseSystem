@@ -1,0 +1,14 @@
+html,body, div.wrapper{
+    height: 100%;
+}
+
+div.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form{
+    width: 55rem;
+    padding: 1em;
+}
