@@ -4,6 +4,7 @@
 
     using CourseSystem.Data.Models;
     using CourseSystem.Services.Data;
+    using CourseSystem.Web.ViewModels.Categories;
     using CourseSystem.Web.ViewModels.Courses;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -12,11 +13,13 @@
     public class CoursesController : Controller
     {
         private readonly ICoursesService coursesService;
+        private readonly ICategoriesService categoriesService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public CoursesController(ICoursesService coursesService, UserManager<ApplicationUser> userManager)
+        public CoursesController(ICoursesService coursesService, ICategoriesService categoriesService, UserManager<ApplicationUser> userManager)
         {
             this.coursesService = coursesService;
+            this.categoriesService = categoriesService;
             this.userManager = userManager;
         }
 
@@ -32,18 +35,27 @@
 
         public IActionResult CreateCourse()
         {
-            return this.View();
+            var viewModel = new CategoriesViewModel
+            {
+                Categories = this.categoriesService.GetCategories<CategoryViewModel>(),
+            };
+            return this.View(viewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateCourse(string name, string category, string difficulty, IFormFile thumbnail, string description)
         {
-            var imageUri = this.coursesService.UploadImageToCloudinary(thumbnail.OpenReadStream());
+            var imageUri = string.Empty;
+            if (thumbnail != null)
+            {
+                this.coursesService.UploadImageToCloudinary(thumbnail.OpenReadStream());
+            }
+
             var userId = this.userManager.GetUserId(this.User);
 
-            await this.coursesService.CreateCourseAsync(name, category, difficulty, imageUri, description, userId);
+            var course = await this.coursesService.CreateCourseAsync(name, category, difficulty, imageUri, description, userId);
 
-            return this.View();
+            return this.RedirectToAction(actionName: "CreateLesson", controllerName: "Lessons", routeValues: new CourseIdViewModel { CourseId = course.Id });
         }
 
         public IActionResult DiscoverAll()

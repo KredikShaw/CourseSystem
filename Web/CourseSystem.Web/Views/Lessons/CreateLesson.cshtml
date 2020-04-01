@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "CreateLesson";
+}
+@model CourseSystem.Web.ViewModels.Courses.CourseIdViewModel
+<link href="~/css/style4.css" rel="stylesheet" />
+
+<div class="wrapper">
+    <form method="post">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div class="form-group">
+            <label for="topic">Topic</label>
+            <textarea class="form-control" id="topic" name="topic" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="hidden" class="form-control" id="courseId" name="courseId" value="@Model.CourseId">
+        </div>
+        <div class="button-wrapper">
+            <button type="submit" class="btn btn-primary">Add Section</button>
+        </div>
+    </form>
+</div>

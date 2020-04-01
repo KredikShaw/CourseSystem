@@ -39,6 +39,7 @@
             };
 
             await this.coursesRepository.AddAsync(course);
+            await this.coursesRepository.SaveChangesAsync();
 
             return course;
         }

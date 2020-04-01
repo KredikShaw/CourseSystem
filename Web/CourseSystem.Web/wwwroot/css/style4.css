@@ -1,0 +1,19 @@
+html,body, div.wrapper{
+    height: 100%;
+}
+
+div.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.button-wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+form{
+    width: 55rem;
+    padding: 1em;
+}

@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "CreateCourse";
 }
+@model CourseSystem.Web.ViewModels.Categories.CategoriesViewModel
+
 <link href="~/css/style3.css" rel="stylesheet" />
 <div class="wrapper">
     <form method="post" enctype="multipart/form-data">
@@ -12,11 +14,10 @@
         <div class="form-group">
             <label for="category">Category</label>
             <select class="form-control" id="category" name="category">
-                <option>Programming</option>
-                <option>Language</option>
-                <option>Photography</option>
-                <option>Self Improvement</option>
-                <option>Health</option>
+                @foreach (var category in Model.Categories)
+                {
+                    <option>@category.Name</option>
+                }
             </select>
         </div>
         <div class="form-group">

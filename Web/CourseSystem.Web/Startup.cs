@@ -67,6 +67,7 @@
             services.AddTransient<IDecksService, DecksService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<ICoursesService, CoursesService>();
+            services.AddTransient<ILessonsService, LessonsService>();
             services.AddTransient<Random, Random>();
         }
 
