@@ -1,0 +1,36 @@
+html,body, div.wrapper{
+    height: 100%;
+}
+
+div.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button{
+    margin-left: 1em;
+}
+
+div.button-wrapper{
+    display: flex;
+    justify-content: flex-end;
+}
+
+form{
+    width: 55rem;
+    padding: 1em;
+}
+
+#textarea {
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border: 1px solid gray;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    height: 118px;
+    overflow: auto;
+    padding: 2px;
+    resize: both;
+    width: 400px;
+}

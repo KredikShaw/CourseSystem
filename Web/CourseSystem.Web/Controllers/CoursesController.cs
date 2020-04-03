@@ -25,12 +25,21 @@
 
         public IActionResult EnrolledCourses()
         {
-            return this.View();
+            var viewModel = new EnrolledCoursesViewModel
+            {
+                Courses = this.coursesService.GetEnrolledCourses<EnrolledCourseViewModel>(this.userManager.GetUserId(this.User)),
+            };
+            return this.View(viewModel);
         }
 
         public IActionResult CreatedCourses()
         {
-            return this.View();
+            var viewModel = new CreatedCoursesViewModel
+            {
+                Courses = this.coursesService.GetCreatedCourses<CreatedCourseViewModel>(this.userManager.GetUserId(this.User)),
+            };
+
+            return this.View(viewModel);
         }
 
         public IActionResult CreateCourse()
@@ -48,7 +57,7 @@
             var imageUri = string.Empty;
             if (thumbnail != null)
             {
-                this.coursesService.UploadImageToCloudinary(thumbnail.OpenReadStream());
+                imageUri = this.coursesService.UploadImageToCloudinary(thumbnail.OpenReadStream());
             }
 
             var userId = this.userManager.GetUserId(this.User);

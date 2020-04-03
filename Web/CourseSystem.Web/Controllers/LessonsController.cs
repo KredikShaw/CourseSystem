@@ -7,6 +7,7 @@
 
     using CourseSystem.Services.Data;
     using CourseSystem.Web.ViewModels.Courses;
+    using CourseSystem.Web.ViewModels.Lessons;
     using Microsoft.AspNetCore.Mvc;
 
     public class LessonsController : Controller
@@ -20,14 +21,26 @@
 
         public IActionResult CreateLesson(string courseId)
         {
-            return this.View(new CourseIdViewModel { CourseId = courseId });
+            var viewModel = new CourseIdViewModel
+            {
+                CourseId = courseId,
+            };
+
+            return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateLesson(string title, string topic, string courseId)
+        public async Task<IActionResult> CreateLesson(string title, string topic, int placeInOrder, string courseId)
         {
             var lesson = await this.lessonsService.CreateLessonAsync(title, topic, courseId);
-            return this.View(new CourseIdViewModel { CourseId = courseId });
+
+            var viewModel = new LessonViewModel
+            {
+                LessonId = lesson.Id,
+                PlaceInOrder = placeInOrder,
+            };
+
+            return this.RedirectToAction("CreateSegment", "Segments", viewModel);
         }
     }
 }

@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "CreatedCourses";
 }
-
+@model CourseSystem.Web.ViewModels.Courses.CreatedCoursesViewModel
 
 <link href="~/css/enrolledcourses.css" rel="stylesheet">
 <link href="~/css/createdcourses.css" rel="stylesheet">
@@ -27,17 +27,20 @@
             </section>
         </div>
         <div class="main">
-            <div class="course">
-                <img src="~/placeholder.png" alt="">
-                <div>
-                    <h1 class="title">Title</h1>
-                    <div class="lower">
-                        <h3>Difficulty: Hard</h3>
-                        <h3>Students enrolled: 11</h3>
-                        <div class="edit btn">Edit Course</div>
+            @foreach (var course in Model.Courses)
+            {
+                <div class="course">
+                    <img src="@course.ThumbnailUrl" alt="No Thumbnail">
+                    <div>
+                        <h1 class="title">@course.Name</h1>
+                        <div class="lower">
+                            <h3>Difficulty: @course.Difficulty</h3>
+                            <h3>Students enrolled: @course.EnrolledUsersCount</h3>
+                            <div class="edit btn">Edit Course</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
     <!-- /#page-content-wrapper -->

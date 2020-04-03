@@ -125,6 +125,7 @@
                 Cards = this.decksService.GetCards<EditDeckCardViewModel>(id),
             };
 
+            // TODO: Make difference when adding card from EditDeck
             return this.View(viewModel);
         }
 

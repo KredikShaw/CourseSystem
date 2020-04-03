@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "CreateSegment";
+}
+@model CourseSystem.Web.ViewModels.Lessons.LessonViewModel
+
+<link href="~/css/style5.css" rel="stylesheet" />
+
+<div class="wrapper">
+    <form method="post">
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control" id="content" rows="10" name="content"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="hidden" class="form-control" id="lessonId" name="lessonId" value="@Model.LessonId">
+        </div>
+        <div class="form-group">
+            <input type="hidden" class="form-control" id="placeInOrder" name="placeInOrder" value=@Model.PlaceInOrder>
+        </div>
+        <div class="button-wrapper">
+            <button type="submit" class="btn btn-primary" name="submitType" value="finish">Finish Lesson</button>
+            <button type="submit" class="btn btn-primary" name="submitType" value="another">Add Another Section</button>
+        </div>
+    </form>
+</div>

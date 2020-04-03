@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
     using CourseSystem.Data.Common.Repositories;
@@ -16,12 +17,18 @@
     public class CoursesService : ICoursesService
     {
         private readonly IDeletableEntityRepository<Course> coursesRepository;
+        private readonly IRepository<UserCourse> usersCoursesRepository;
         private readonly IConfiguration configuration;
         private readonly ICategoriesService categoriesService;
 
-        public CoursesService(IDeletableEntityRepository<Course> coursesRepository, IConfiguration configuration, ICategoriesService categoriesService)
+        public CoursesService(
+            IDeletableEntityRepository<Course> coursesRepository,
+            IRepository<UserCourse> usersCoursesRepository,
+            IConfiguration configuration,
+            ICategoriesService categoriesService)
         {
             this.coursesRepository = coursesRepository;
+            this.usersCoursesRepository = usersCoursesRepository;
             this.configuration = configuration;
             this.categoriesService = categoriesService;
         }
@@ -63,6 +70,41 @@
                 .ToList();
 
             return categories;
+        }
+
+        public IEnumerable<T> GetCreatedCourses<T>(string userId)
+        {
+            var courses = this.coursesRepository
+                .All()
+                .Where(x => x.UserId == userId)
+                .To<T>()
+                .ToList();
+
+            return courses;
+        }
+
+        public IEnumerable<T> GetEnrolledCourses<T>(string userId)
+        {
+            var courseIds = this.usersCoursesRepository
+                .All()
+                .Where(x => x.UserId == userId)
+                .Select(x => x.CourseId)
+                .ToList();
+
+            List<T> courses = new List<T>();
+
+            foreach (var courseId in courseIds)
+            {
+                var course = this.coursesRepository
+                    .All()
+                    .Where(x => x.Id == courseId)
+                    .To<T>()
+                    .FirstOrDefault();
+
+                courses.Add(course);
+            }
+
+            return courses;
         }
 
         public string UploadImageToCloudinary(Stream imageFileStream)

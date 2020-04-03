@@ -14,6 +14,10 @@
 
         IEnumerable<T> GetCoursesByCategory<T>(int categoryId);
 
+        IEnumerable<T> GetCreatedCourses<T>(string userId);
+
+        IEnumerable<T> GetEnrolledCourses<T>(string userId);
+
         string UploadImageToCloudinary(Stream imageFileStream);
     }
 }
