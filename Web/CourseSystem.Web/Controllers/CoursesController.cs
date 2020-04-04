@@ -71,7 +71,7 @@
         {
             var viewModel = new DiscoverCoursesViewModel
             {
-                Courses = this.coursesService.GetAllCourses<DiscoverCourseViewModel>(),
+                Courses = this.coursesService.GetAllCourses<DiscoverCourseViewModel>(this.userManager.GetUserId(this.User)),
             };
             return this.View("Discover", viewModel);
         }
@@ -80,9 +80,15 @@
         {
             var viewModel = new DiscoverCoursesViewModel
             {
-                Courses = this.coursesService.GetCoursesByCategory<DiscoverCourseViewModel>(categoryId),
+                Courses = this.coursesService.GetCoursesByCategory<DiscoverCourseViewModel>(categoryId, this.userManager.GetUserId(this.User)),
             };
             return this.View("Discover", viewModel);
+        }
+
+        public async Task<IActionResult> Enroll(string courseId)
+        {
+            await this.coursesService.EnrollStudentAsync(courseId, this.userManager.GetUserId(this.User));
+            return this.RedirectToAction("EnrolledCourses");
         }
     }
 }

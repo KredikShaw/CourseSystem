@@ -51,17 +51,36 @@
             return course;
         }
 
-        public IEnumerable<T> GetAllCourses<T>()
+        public async Task EnrollStudentAsync(string courseId, string userId)
         {
+            var userCourse = new UserCourse
+            {
+                CourseId = courseId,
+                UserId = userId,
+            };
+
+            await this.usersCoursesRepository.AddAsync(userCourse);
+            await this.usersCoursesRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> GetAllCourses<T>(string userId)
+        {
+            var userCourses = this.usersCoursesRepository
+                .All()
+                .Where(x => x.UserId == userId)
+                .Select(x => x.CourseId)
+                .ToList();
+
             var categories = this.coursesRepository
                 .All()
+                .Where(x => !userCourses.Contains(x.Id))
                 .To<T>()
                 .ToList();
 
             return categories;
         }
 
-        public IEnumerable<T> GetCoursesByCategory<T>(int categoryId)
+        public IEnumerable<T> GetCoursesByCategory<T>(int categoryId, string userId)
         {
             var categories = this.coursesRepository
                 .All()

@@ -38,6 +38,7 @@
             {
                 LessonId = lesson.Id,
                 PlaceInOrder = placeInOrder,
+                CourseId = courseId,
             };
 
             return this.RedirectToAction("CreateSegment", "Segments", viewModel);
