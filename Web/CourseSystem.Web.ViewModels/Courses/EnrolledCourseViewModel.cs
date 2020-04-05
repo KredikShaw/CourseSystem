@@ -5,6 +5,8 @@
 
     public class EnrolledCourseViewModel : IMapFrom<Course>
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string ThumbnailUrl { get; set; }

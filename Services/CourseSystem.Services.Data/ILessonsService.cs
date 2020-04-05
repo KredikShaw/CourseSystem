@@ -10,5 +10,9 @@
     public interface ILessonsService
     {
         Task<Lesson> CreateLessonAsync(string title, string description, string courseId);
+
+        IEnumerable<T> GetLessons<T>(string courseId);
+
+        string GetLessonName(string lessonId);
     }
 }

@@ -2,6 +2,7 @@
 @{
     this.ViewData["Title"] = "Home Page";
 }
+<link href="~/css/style.css" rel="stylesheet" />
 <section class="main-section">
     <div class="heading-image-container">
         <h1>Learn new skills in a fast and efficient way</h1>
@@ -9,7 +10,7 @@
         <a asp-area="" asp-controller="Users" asp-action="Register" class="btn">Start learning now</a>
     </div>
 
-    <div class="jumbotron card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+    <div class="jumbotron card card-image" id="jumbotron">
         <div class="text-white text-center py-5 px-4">
             <div>
                 <h2 class="card-title h1 pt-3 mb-5 font-bold txtshadow"><strong>Learn or Teach</strong></h2>

@@ -8,5 +8,7 @@
     public interface ISegmentsService
     {
         Task CreateSegmentAsync(string content, string lessonId, int placeInLessonOrder);
+
+        IEnumerable<T> GetSegments<T>(string lessonId);
     }
 }

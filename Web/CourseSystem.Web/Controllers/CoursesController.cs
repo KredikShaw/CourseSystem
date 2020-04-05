@@ -6,6 +6,7 @@
     using CourseSystem.Services.Data;
     using CourseSystem.Web.ViewModels.Categories;
     using CourseSystem.Web.ViewModels.Courses;
+    using CourseSystem.Web.ViewModels.Lessons;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,18 @@
     {
         private readonly ICoursesService coursesService;
         private readonly ICategoriesService categoriesService;
+        private readonly ILessonsService lessonsService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public CoursesController(ICoursesService coursesService, ICategoriesService categoriesService, UserManager<ApplicationUser> userManager)
+        public CoursesController(
+            ICoursesService coursesService,
+            ICategoriesService categoriesService,
+            ILessonsService lessonsService,
+            UserManager<ApplicationUser> userManager)
         {
             this.coursesService = coursesService;
             this.categoriesService = categoriesService;
+            this.lessonsService = lessonsService;
             this.userManager = userManager;
         }
 
@@ -89,6 +96,15 @@
         {
             await this.coursesService.EnrollStudentAsync(courseId, this.userManager.GetUserId(this.User));
             return this.RedirectToAction("EnrolledCourses");
+        }
+
+        public IActionResult Study(string courseId)
+        {
+            var viewModel = new StudyLessonsViewModel
+            {
+                Lessons = this.lessonsService.GetLessons<StudyLessonViewModel>(courseId),
+            };
+            return this.View(viewModel);
         }
     }
 }

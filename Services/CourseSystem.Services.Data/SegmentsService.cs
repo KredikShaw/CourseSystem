@@ -2,11 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
     using CourseSystem.Data.Common.Repositories;
     using CourseSystem.Data.Models;
+    using CourseSystem.Services.Mapping;
 
     public class SegmentsService : ISegmentsService
     {
@@ -29,6 +31,16 @@
 
             await this.segmentsRepository.AddAsync(segment);
             await this.segmentsRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> GetSegments<T>(string lessonId)
+        {
+            var segments = this.segmentsRepository.All()
+                   .Where(x => x.LessonId == lessonId)
+                   .To<T>()
+                   .ToList();
+
+            return segments;
         }
     }
 }

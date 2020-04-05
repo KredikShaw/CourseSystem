@@ -32,7 +32,7 @@
                     <div class="lower">
                         <h3>0/@course.LessonsCount</h3>
                         <h3>@course.Difficulty</h3>
-                        <div class="next btn">Next</div>
+                        <a class="btn btn-primary btn-lg" asp-action="Study" asp-controller="Courses" asp-route-courseId="@course.Id" role="button">Study</a>
                     </div>
                 </div>
             </div>

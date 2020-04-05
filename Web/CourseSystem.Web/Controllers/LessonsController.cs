@@ -8,15 +8,18 @@
     using CourseSystem.Services.Data;
     using CourseSystem.Web.ViewModels.Courses;
     using CourseSystem.Web.ViewModels.Lessons;
+    using CourseSystem.Web.ViewModels.Segments;
     using Microsoft.AspNetCore.Mvc;
 
     public class LessonsController : Controller
     {
         private readonly ILessonsService lessonsService;
+        private readonly ISegmentsService segmentsService;
 
-        public LessonsController(ILessonsService lessonsService)
+        public LessonsController(ILessonsService lessonsService, ISegmentsService segmentsService)
         {
             this.lessonsService = lessonsService;
+            this.segmentsService = segmentsService;
         }
 
         public IActionResult CreateLesson(string courseId)
@@ -42,6 +45,18 @@
             };
 
             return this.RedirectToAction("CreateSegment", "Segments", viewModel);
+        }
+
+        public IActionResult Study(string lessonId, string courseId)
+        {
+            var viewModel = new StudySegmentsViewModel
+            {
+                Name = this.lessonsService.GetLessonName(lessonId),
+                Segments = this.segmentsService.GetSegments<StudySegmentViewModel>(lessonId),
+                CourseId = courseId,
+            };
+
+            return this.View(viewModel);
         }
     }
 }

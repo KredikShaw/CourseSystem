@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewData["Title"] = "Study";
+}
+
+@model CourseSystem.Web.ViewModels.Segments.StudySegmentsViewModel
+
+<link href="~/css/lesson.css" rel="stylesheet" />
+<div class="wrapper">
+    @foreach (var segment in Model.Segments)
+    {
+        <div class="lesson" id="@segment.PlaceInLessonOrder">
+            <h2 class="lesson-header">@Model.Name</h2>
+            <section class="lesson-body">
+                <p>@segment.Content</p>
+            </section>
+            @if (segment.PlaceInLessonOrder + 1 <= Model.Segments.Count())
+            {
+                <a class="btn btn-primary btn-lg" role="button" onclick="showOne(@segment.PlaceInLessonOrder+1)">Next</a>
+            }
+            else
+            {
+                <a class="btn btn-primary btn-lg" role="button" asp-action="Study" asp-controller="Courses" asp-route-courseId="@Model.CourseId">Finish</a>
+            }
+        </div>
+    }
+</div>
+
+<script>
+    window.onload = function () {
+        start();
+    };
+    function start() {
+        $('.lesson').hide();
+        $('#1').show();
+    }
+    function showOne(id) {
+        $('.lesson').hide();
+        $('#' + id).show();
+        console.log('showing ' + id);
+    }
+</script>
