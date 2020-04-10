@@ -7,26 +7,86 @@
 <link href="~/css/style5.css" rel="stylesheet" />
 
 <div class="wrapper">
-    <form method="post">
-        <div class="form-group">
-            <label for="content">Content</label>
-            <textarea class="form-control" id="content" rows="20" name="content"></textarea>
+    <div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="content-tab" data-toggle="tab" href="#content" role="tab" aria-controls="content" aria-selected="true">Content</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="test-tab" data-toggle="tab" href="#test" role="tab" aria-controls="test" aria-selected="false">Test</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="content" role="tabpanel" aria-labelledby="content-tab">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="content">Content</label>
+                        <textarea class="form-control" id="content" rows="20" name="content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="lessonId" name="lessonId" value="@Model.LessonId">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="placeInOrder" name="placeInOrder" value=@Model.PlaceInOrder>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="courseId" name="courseId" value=@Model.CourseId>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="discriminator" name="discriminator" value="ContentSegment">
+                    </div>
+                    <div class="button-wrapper">
+                        <button type="submit" class="btn btn-primary" name="submitType" value="another">Add Another Section</button>
+                        <button type="submit" class="btn btn-primary" name="submitType" value="finishLesson">Finish Lesson</button>
+                        <button type="submit" class="btn btn-primary" name="submitType" value="finishCourse">Finish Course</button>
+                        @*<a onclick="img_find()" class="btn btn-primary">Upload</a>*@
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="question">Question</label>
+                        <input type="text" class="form-control" id="question" name="question" placeholder="Question...">
+                    </div>
+                    <div class="form-group">
+                        <label for="correctAnswer">Correct Answer</label>
+                        <input type="text" class="form-control" id="correctAnswer" name="correctAnswer" style="border: 2px solid transparent; border-color:#28a745;" placeholder="Correct Answer...">
+                    </div>
+                    <div class="form-group">
+                        <label for="wrongOption1">Wrong Option</label>
+                        <input type="text" class="form-control" id="wrongOption1" name="wrongAnswer1" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option...">
+                    </div>
+                    <div class="form-group">
+                        <label for="wrongOption2">Wrong Option</label>
+                        <input type="text" class="form-control" id="wrongOption2" name="wrongAnswer2" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option...">
+                    </div>
+                    <div class="form-group">
+                        <label for="wrongOption3">Wrong Option</label>
+                        <input type="text" class="form-control" id="wrongOption3" name="wrongAnswer3" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option...">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="lessonId" name="lessonId" value="@Model.LessonId">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="placeInOrder" name="placeInOrder" value=@Model.PlaceInOrder>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="courseId" name="courseId" value=@Model.CourseId>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="discriminator" name="discriminator" value="TestSegment">
+                    </div>
+                    <div class="button-wrapper">
+                        <button type="submit" class="btn btn-primary" name="submitType" value="another">Add Another Section</button>
+                        <button type="submit" class="btn btn-primary" name="submitType" value="finishLesson">Finish Lesson</button>
+                        <button type="submit" class="btn btn-primary" name="submitType" value="finishCourse">Finish Course</button>
+                        @*<a onclick="img_find()" class="btn btn-primary">Upload</a>*@
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-            <input type="hidden" class="form-control" id="lessonId" name="lessonId" value="@Model.LessonId">
-        </div>
-        <div class="form-group">
-            <input type="hidden" class="form-control" id="placeInOrder" name="placeInOrder" value=@Model.PlaceInOrder>
-        </div>
-        <div class="form-group">
-            <input type="hidden" class="form-control" id="courseId" name="courseId" value=@Model.CourseId>
-        </div>
-        <div class="button-wrapper">
-            <button type="submit" class="btn btn-primary" name="submitType" value="another">Add Another Section</button>
-            <button type="submit" class="btn btn-primary" name="submitType" value="finishLesson">Finish Lesson</button>
-            <button type="submit" class="btn btn-primary" name="submitType" value="finishCourse">Finish Course</button>
-        </div>
-    </form>
+    </div>
 </div>
 
 <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
@@ -37,30 +97,71 @@
             "image paste table link code media imagetools"
         ],
         paste_data_images: true,
-        //images_upload_url: '/Segments/UploadImage',
+        images_upload_url: '/Segments/UploadImage',
         automatic_uploads: true,
+        images_reuse_filename: true,
         file_picker_types: 'image',
-        file_picker_callback: function (cb, value, meta) {
+        images_upload_base_path: 'https://res.cloudinary.com/alekskn99/image/upload/',
+        images_upload_handler: function (blobInfo, success, failure) {
+            var xhr, formData;
 
-            var input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/*');
+            xhr = new XMLHttpRequest();
+            xhr.withCredentials = false;
+            xhr.open('POST', '/Segments/UploadImage');
 
-            input.onchange = function () {
-                var file = this.files[0];
+            xhr.onload = function () {
+                var json;
 
-                var reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function () {
-                    var id = 'blobid' + (new Date()).getTime();
-                    var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                    var base64 = reader.result.split(',')[1];
-                    var blobInfo = blobCache.create(id, file, base64);
-                    blobCache.add(blobInfo);
-                    cb(blobInfo.blobUri(), { title: file.name });
-                };
+                if (xhr.status != 200) {
+                    failure('HTTP Error: ' + xhr.status);
+                    return;
+                }
+
+                json = JSON.parse(xhr.responseText);
+
+                if (!json || typeof json.location != 'string') {
+                    failure('Invalid JSON: ' + xhr.responseText);
+                    return;
+                }
+
+                success(json.location);
             };
-            input.click();
-        }
+
+            formData = new FormData();
+            formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+            xhr.send(formData);
+        },
     });
+</script>
+
+<script>
+    function upload(path) {
+        return $.ajax(
+            {
+                type: "GET",
+                url: "/Segments/UploadImage?path=" + path,
+                success: function () { console.log('success'); },
+                error: function (error) {
+                    console.log(error);
+                },
+            }
+        );
+    }
+
+    function img_find() {
+        var tinyMCECode = tinyMCE.activeEditor.getContent();
+        var imgs = getAttrFromString(tinyMCECode, 'img', 'src');
+        for (var i = 0; i < imgs.length; i++) {
+            upload(imgs[i]);
+        }
+    }
+
+    function getAttrFromString(str, node, attr) {
+        var regex = new RegExp('<' + node + ' .*?' + attr + '="(.*?)"', "gi"), result, res = [];
+        while ((result = regex.exec(str))) {
+            res.push(result[1]);
+        }
+        return res;
+    }
 </script>

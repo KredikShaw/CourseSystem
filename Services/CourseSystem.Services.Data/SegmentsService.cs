@@ -19,14 +19,28 @@
             this.segmentsRepository = segmentsRepository;
         }
 
-        public async Task CreateSegmentAsync(string content, string lessonId, int placeInLessonOrder)
+        public async Task CreateSegmentAsync(
+            string content,
+            string lessonId,
+            string question,
+            string correctAnswer,
+            string wrongAnswer1,
+            string wrongAnswer2,
+            string wrongAnswer3,
+            int placeInLessonOrder,
+            string discriminator)
         {
             var segment = new Segment
             {
                 Content = content,
                 LessonId = lessonId,
                 PlaceInLessonOrder = placeInLessonOrder,
-                Discriminator = "ContentSegment",
+                Question = question,
+                CorrectAnswer = correctAnswer,
+                WrongAnswer1 = wrongAnswer1,
+                WrongAnswer2 = wrongAnswer2,
+                WrongAnswer3 = wrongAnswer3,
+                Discriminator = discriminator,
             };
 
             await this.segmentsRepository.AddAsync(segment);

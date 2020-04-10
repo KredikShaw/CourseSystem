@@ -144,5 +144,24 @@
             var uploadResult = cloudinary.Upload(uploadParams);
             return uploadResult.SecureUri.AbsoluteUri;
         }
+
+        public string UploadImageToCloudinaryBase64(string base64)
+        {
+            Account account = new Account
+            {
+                Cloud = this.configuration.GetSection("Cloudinary").GetSection("cloudName").Value,
+                ApiKey = this.configuration.GetSection("Cloudinary").GetSection("apiKey").Value,
+                ApiSecret = this.configuration.GetSection("Cloudinary").GetSection("apiSecret").Value,
+            };
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(base64),
+            };
+            var uploadResult = cloudinary.Upload(uploadParams);
+            return uploadResult.SecureUri.AbsoluteUri;
+        }
     }
 }

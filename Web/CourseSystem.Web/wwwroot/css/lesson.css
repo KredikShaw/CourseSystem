@@ -4,14 +4,16 @@
     align-items: center;
     height: 100%;
 }
-
 .lesson{
-    width:55%;
+    position:relative;
+    top:0;
+    height:100%;
+    width:75%;
 }
 
-.lesson-header{
+.lesson-header {
     background-color: royalblue;
-    color:white;
+    color: white;
     /* height: 2.5em; */
     padding: 1em;
     font-size: 36px;
@@ -19,8 +21,8 @@
     align-items: center;
     margin: 0;
     position: -webkit-sticky; /* Safari */
-  position: sticky;
-  top: 0;
+    position: sticky;
+    top:1.25em;
 }
 
 .lesson-body{
