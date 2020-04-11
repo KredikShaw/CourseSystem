@@ -23,6 +23,7 @@
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top:1.25em;
+    z-index:1000;
 }
 
 .lesson-body{

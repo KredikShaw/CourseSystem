@@ -38,16 +38,14 @@
                                         <script>
                                             function clicked(clicked) {
                                                 var answer = document.getElementsByClassName('answer');
-                                                for (var i = 0; i < answer.length; i++) {
-                                                    answer[i].innerHTML = 'Waiting...';
-                                                    answer[i].style.color = '#6c757d';
-                                                }
+
                                                 if (clicked.id == 'correct') {
                                                     console.log('correct');
                                                     for (var i = 0; i < answer.length; i++) {
                                                         answer[i].innerHTML = 'Correct';
                                                         answer[i].style.color = '#00FF00';
                                                     }
+                                                    correctAnswers++;
                                                 }
                                                 else {
                                                     console.log('incorrect');
@@ -55,14 +53,21 @@
                                                         answer[i].innerHTML = 'Incorrect';
                                                         answer[i].style.color = '#FF0000';
                                                     }
+                                                    wrongAnswers++;
                                                 }
                                                 blockButtons();
-                                                @if (segment.PlaceInLessonOrder + 1 <= @Model.Segments.Count()) {
-                                                    //setTimeout(function () {showOne(segment.PlaceInLessonOrder + 1)}, 2000);
+                                                if ($('#@Model.Segments.Count()').is(':visible')) {
+                                                        alert('wrong: ' + wrongAnswers + ' correct: ' + correctAnswers);
+                                                    //setTimeout(function () {
+                                                    //}, 2000);
                                                 }
-                                                else {
-                                                    //setTimeout(function () { document.getElementById('finishButton').click(); }, 2000);
-                                                }
+                                                setTimeout(function () {
+                                                    showOne(@segment.PlaceInLessonOrder + 1)
+                                                    for (var i = 0; i < answer.length; i++) {
+                                                        answer[i].innerHTML = 'Waiting...';
+                                                        answer[i].style.color = '#6c757d';
+                                                    }
+                                                }, 2000);
                                             }
                                         </script>
                                     </div>
@@ -81,14 +86,15 @@
             }
             else
             {
-                <a id="finishButton" class="btn btn-primary btn-lg" role="button" asp-action="Study" asp-controller="Courses" asp-route-courseId="@Model.CourseId">Finish</a>
+                <a id="finishButton" class="finishButton btn btn-primary btn-lg" role="button" asp-action="Study" asp-controller="Courses" asp-route-courseId="@Model.CourseId">Finish</a>
             }
         </div>
-
     }
 </div>
 
 <script>
+    var wrongAnswers = 0;
+    var correctAnswers = 0;
     window.onload = function () {
         start();
     };
