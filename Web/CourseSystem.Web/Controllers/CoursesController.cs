@@ -106,5 +106,33 @@
             };
             return this.View(viewModel);
         }
+
+        public IActionResult EditCourse(string courseId)
+        {
+            var viewModel = new EditCourseWithCategoryViewModel<EditCourseViewModel>()
+            {
+                Course = this.coursesService.GetCourse<EditCourseViewModel>(courseId),
+                Categories = this.categoriesService.GetCategories<CategoryViewModel>(),
+            };
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCourse(string courseId, string name, string category, string difficulty, IFormFile thumbnail, string description)
+        {
+            var imageUri = string.Empty;
+            if (thumbnail != null)
+            {
+                imageUri = this.coursesService.UploadImageToCloudinary(thumbnail.OpenReadStream());
+            }
+
+            await this.coursesService.EditCourse(courseId, name, category, difficulty, imageUri, description);
+
+            var viewModel = new CourseIdViewModel
+            {
+                CourseId = courseId,
+            };
+            return this.RedirectToAction("EditLessons", "Lessons", viewModel);
+        }
     }
 }

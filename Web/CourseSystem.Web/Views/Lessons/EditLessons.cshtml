@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "EditLessons";
+}
+@model CourseSystem.Web.ViewModels.Lessons.StudyLessonsViewModel
+
+<div class="wrapper">
+    @foreach (var lesson in Model.Lessons)
+    {
+        <div class="jumbotron">
+            <h1 class="display-4">@lesson.Name</h1>
+            <p class="lead">@lesson.Description</p>
+            <hr class="my-4">
+            <p>Segments for this lesson: @lesson.Segments.Count()</p>
+            <form method="post">
+                <a class="btn btn-primary btn-lg" asp-action="EditLesson" asp-controller="Lessons" asp-route-lessonId="@lesson.Id" asp-route-courseId="@lesson.CourseId" role="button">Edit Lesson</a>
+            </form>
+        </div>
+    }
+</div>
+

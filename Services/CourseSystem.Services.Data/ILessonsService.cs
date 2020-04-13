@@ -13,6 +13,10 @@
 
         IEnumerable<T> GetLessons<T>(string courseId);
 
+        T GetLesson<T>(string lessonId);
+
         string GetLessonName(string lessonId);
+
+        Task EditLesson(string lessonId, string name, string description);
     }
 }

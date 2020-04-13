@@ -58,5 +58,31 @@
 
             return this.View(viewModel);
         }
+
+        public IActionResult EditLessons(string courseId)
+        {
+            var viewModel = new StudyLessonsViewModel
+            {
+                Lessons = this.lessonsService.GetLessons<StudyLessonViewModel>(courseId),
+            };
+            return this.View(viewModel);
+        }
+
+        public IActionResult EditLesson(string lessonId)
+        {
+            var viewModel = this.lessonsService.GetLesson<EditLessonViewModel>(lessonId);
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditLesson(string lessonId, string courseId, string name, string description)
+        {
+            await this.lessonsService.EditLesson(lessonId, name, description);
+            var viewModel = new CourseIdViewModel
+            {
+                CourseId = courseId,
+            };
+            return this.RedirectToAction("EditLessons", "Lessons", viewModel);
+        }
     }
 }

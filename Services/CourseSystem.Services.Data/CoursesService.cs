@@ -51,6 +51,23 @@
             return course;
         }
 
+        public async Task EditCourse(string courseId, string name, string category, string difficulty, string imageUri, string description)
+        {
+            var course = this.coursesRepository.All().FirstOrDefault(c => c.Id == courseId);
+            course.Name = name;
+            course.CategoryId = this.categoriesService.GetCategoryId(category);
+            course.Difficulty = difficulty;
+            if (imageUri != string.Empty)
+            {
+                course.ThumbnailUrl = imageUri;
+            }
+
+            course.Description = description;
+
+            this.coursesRepository.Update(course);
+            await this.coursesRepository.SaveChangesAsync();
+        }
+
         public async Task EnrollStudentAsync(string courseId, string userId)
         {
             var userCourse = new UserCourse
@@ -78,6 +95,17 @@
                 .ToList();
 
             return categories;
+        }
+
+        public T GetCourse<T>(string courseId)
+        {
+            var course = this.coursesRepository
+                .All()
+                .Where(c => c.Id == courseId)
+                .To<T>()
+                .FirstOrDefault();
+
+            return course;
         }
 
         public IEnumerable<T> GetCoursesByCategory<T>(int categoryId, string userId)

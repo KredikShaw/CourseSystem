@@ -34,6 +34,30 @@
             return lesson;
         }
 
+        public async Task EditLesson(string lessonId, string name, string description)
+        {
+            var lesson = this.lessonsRepository
+                .All()
+                .FirstOrDefault(l => l.Id == lessonId);
+
+            lesson.Name = name;
+            lesson.Description = description;
+
+            this.lessonsRepository.Update(lesson);
+            await this.lessonsRepository.SaveChangesAsync();
+        }
+
+        public T GetLesson<T>(string lessonId)
+        {
+            var lesson = this.lessonsRepository
+                .All()
+                .Where(l => l.Id == lessonId)
+                .To<T>()
+                .FirstOrDefault();
+
+            return lesson;
+        }
+
         public string GetLessonName(string lessonId)
         {
             string name = this.lessonsRepository

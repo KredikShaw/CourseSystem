@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "EditCourse";
+}
+@model CourseSystem.Web.ViewModels.Courses.EditCourseWithCategoryViewModel<CourseSystem.Web.ViewModels.Courses.EditCourseViewModel>
+
+<link href="~/css/style3.css" rel="stylesheet" />
+<div class="wrapper">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Course Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="@Model.Course.Name">
+        </div>
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" id="category" name="category" value="@Model.Course.CategoryName">
+                @foreach (var category in Model.Categories)
+                {
+                    if (category.Name == Model.Course.CategoryName)
+                    {
+                        <option selected>@category.Name</option>
+                    }
+                    else
+                    {
+                        <option>@category.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="difficulty">Difficulty</label>
+            <select class="form-control" id="difficulty" name="difficulty" value="@Model.Course.Difficulty">
+                <option>Absolute Beginner</option>
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Advanced</option>
+                <option>Expert</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="thumbnail">Thumbnail</label>
+            <input type="file" class="form-control-file" id="thumbnail" name="thumbnail">
+            <img src="@Model.Course.ThumbnailUrl" alt="No Thumbnail" width="500" class="mt-4" />
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3">@Model.Course.Description</textarea>
+        </div>
+        <div class="form-group">
+            <input type="hidden" class="form-control" id="courseId" name="courseId" value="@Model.Course.Id">
+        </div>
+        <div class="button-wrapper">
+            <button type="submit" class="btn btn-primary" asp-action="EditCourse" asp-controller="Courses">Save And Edit Lessons</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    var selector = document.getElementById('difficulty');
+    var options = selector.getElementsByTagName('OPTION');
+    for (var i = 0; i < options.length; i++) {
+        if (options[i].textContent == '@Model.Course.Difficulty') {
+            options[i].setAttribute('selected', 'selected');
+        }
+    }
+</script>
+
+<script>
+    var input = document.getElementById('thumbnail');
+    input.nodeValue = '@Model.Course.ThumbnailUrl';
+</script>

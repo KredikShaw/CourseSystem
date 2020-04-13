@@ -21,6 +21,11 @@
         Task EnrollStudentAsync(string courseId, string userId);
 
         string UploadImageToCloudinary(Stream imageFileStream);
+
         string UploadImageToCloudinaryBase64(string base64);
+
+        T GetCourse<T>(string courseId);
+
+        Task EditCourse(string courseId, string name, string category, string difficulty, string imageUri, string description);
     }
 }
