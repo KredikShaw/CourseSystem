@@ -56,5 +56,33 @@
 
             return segments;
         }
+
+        public async Task UpdateContentSegment(string segmentId, string content)
+        {
+            var segment = this.segmentsRepository
+                .All()
+                .FirstOrDefault(x => x.Id == segmentId);
+
+            segment.Content = content;
+
+            this.segmentsRepository.Update(segment);
+            await this.segmentsRepository.SaveChangesAsync();
+        }
+
+        public async Task UpdateTestSegment(string segmentId, string question, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3)
+        {
+            var segment = this.segmentsRepository
+                .All()
+                .FirstOrDefault(x => x.Id == segmentId);
+
+            segment.Question = question;
+            segment.CorrectAnswer = correctAnswer;
+            segment.WrongAnswer1 = wrongAnswer1;
+            segment.WrongAnswer2 = wrongAnswer2;
+            segment.WrongAnswer3 = wrongAnswer3;
+
+            this.segmentsRepository.Update(segment);
+            await this.segmentsRepository.SaveChangesAsync();
+        }
     }
 }

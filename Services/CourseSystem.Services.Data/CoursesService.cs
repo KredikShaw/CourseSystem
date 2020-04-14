@@ -51,6 +51,16 @@
             return course;
         }
 
+        public async Task DeleteCourse(string courseId)
+        {
+            var course = this.coursesRepository
+                .All()
+                .FirstOrDefault(x => x.Id == courseId);
+
+            this.coursesRepository.Delete(course);
+            await this.coursesRepository.SaveChangesAsync();
+        }
+
         public async Task EditCourse(string courseId, string name, string category, string difficulty, string imageUri, string description)
         {
             var course = this.coursesRepository.All().FirstOrDefault(c => c.Id == courseId);

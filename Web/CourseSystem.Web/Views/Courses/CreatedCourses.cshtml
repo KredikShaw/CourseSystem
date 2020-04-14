@@ -34,9 +34,30 @@
                     <div>
                         <h1 class="title">@course.Name</h1>
                         <div class="lower">
-                            <h3>Difficulty: @course.Difficulty</h3>
-                            <h3>Students enrolled: @course.EnrolledUsersCount</h3>
-                            <a class="btn btn-primary btn-lg" asp-action="EditCourse" asp-controller="Courses" asp-route-courseId="@course.Id" role="button">Edit Course</a>
+                            <h4>Difficulty: @course.Difficulty</h4>
+                            <h4>Students enrolled: @course.EnrolledUsersCount</h4>
+                            <a class="btn btn-danger btn-lg mr-3" style="color:white;" data-toggle="modal" data-target="#@course.Name.Replace(' ', '1')" role="button">Delete Course</a>
+                            <!-- Modal -->
+                            <div class="modal fade" style="margin-top:2em;" id="@course.Name.Replace(' ', '1')" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2>Are you sure you want to delete course "@course.Name"?</h2>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <a role="button" class="btn btn-danger" asp-action="DeleteCourse" asp-controller="Courses" asp-route-courseId="@course.Id">Delete Course</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="btn btn-warning btn-lg" asp-action="EditCourse" asp-controller="Courses" asp-route-courseId="@course.Id" role="button">Edit Course</a>
                         </div>
                     </div>
                 </div>

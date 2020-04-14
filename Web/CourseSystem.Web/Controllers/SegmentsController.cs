@@ -12,7 +12,7 @@
 
     using CourseSystem.Services.Data;
     using CourseSystem.Web.ViewModels.Lessons;
-
+    using CourseSystem.Web.ViewModels.Segments;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
@@ -93,6 +93,46 @@
         {
             var url = this.coursesService.UploadImageToCloudinaryBase64(base64);
             return url;
+        }
+
+        public IActionResult EditSegments(string lessonId)
+        {
+            var viewModel = new StudySegmentsViewModel
+            {
+                Segments = this.segmentsService.GetSegments<StudySegmentViewModel>(lessonId),
+            };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditContentSegment(string segmentId, string lessonId, string content, string submitType)
+        {
+            await this.segmentsService.UpdateContentSegment(segmentId, content);
+
+            if (submitType == "save")
+            {
+                return this.RedirectToAction("EditSegments", new { lessonId });
+            }
+            else
+            {
+                return this.Redirect("/Courses/CreatedCourses");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTestSegment(string segmentId, string lessonId, string question, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string submitType)
+        {
+            await this.segmentsService.UpdateTestSegment(segmentId, question, correctAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3);
+
+            if (submitType == "save")
+            {
+                return this.RedirectToAction("EditSegments", new { lessonId });
+            }
+            else
+            {
+                return this.Redirect("/Courses/CreatedCourses");
+            }
         }
     }
 }

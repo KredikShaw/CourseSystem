@@ -10,6 +10,10 @@
 
     public class StudySegmentViewModel : IMapFrom<Segment>
     {
+        public string Id { get; set; }
+
+        public string LessonId { get; set; }
+
         public int PlaceInLessonOrder { get; set; }
 
         public string Content { get; set; }
@@ -26,6 +30,6 @@
 
         public string Discriminator { get; set; }
 
-        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);//TODO: Images to cloudinary
+        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
     }
 }

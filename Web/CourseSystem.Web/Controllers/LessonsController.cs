@@ -78,11 +78,13 @@
         public async Task<IActionResult> EditLesson(string lessonId, string courseId, string name, string description)
         {
             await this.lessonsService.EditLesson(lessonId, name, description);
-            var viewModel = new CourseIdViewModel
-            {
-                CourseId = courseId,
-            };
-            return this.RedirectToAction("EditLessons", "Lessons", viewModel);
+            return this.RedirectToAction("EditSegments", "Segments", new { lessonId });
+        }
+
+        public async Task<IActionResult> DeleteLesson(string lessonId, string courseId)
+        {
+            await this.lessonsService.DeleteLesson(lessonId);
+            return this.RedirectToAction("EditLessons", "Lessons", new { courseId });
         }
     }
 }

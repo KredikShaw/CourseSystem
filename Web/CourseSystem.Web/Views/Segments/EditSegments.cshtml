@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewData["Title"] = "EditSegments";
+}
+@model CourseSystem.Web.ViewModels.Segments.StudySegmentsViewModel
+
+<link href="~/css/style5.css" rel="stylesheet" />
+
+<div class="wrapper">
+    <div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            @foreach (var segment in Model.Segments.OrderBy(x => x.PlaceInLessonOrder))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" id="@segment.Discriminator@segment.PlaceInLessonOrder-tab" onclick="showOne('@segment.PlaceInLessonOrder')">@segment.Discriminator</a>
+                </li>
+            }
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            @foreach (var segment in Model.Segments.OrderBy(x => x.PlaceInLessonOrder))
+            {
+                if (segment.Discriminator == "ContentSegment")
+                {
+                    <div class="tab-pane tab" id="@segment.PlaceInLessonOrder" role="tabpanel">
+                        <form method="post">
+                            <div class="form-group">
+                                <label for="content">Content</label>
+                                <textarea class="form-control" id="content" rows="20" name="content">@segment.SanitizedContent</textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="segmentId" name="segmentId" value="@segment.Id">
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="lessonId" name="lessonId" value="@segment.LessonId">
+                            </div>
+                            <div class="button-wrapper">
+                                <button type="submit" class="btn btn-primary" name="submitType" value="save" asp-action="EditContentSegment">Save</button>
+                                <button type="submit" class="btn btn-primary" name="submitType" value="finish" asp-action="EditContentSegment">Save And Finish</button>
+                            </div>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="tab-pane tab" id="@segment.PlaceInLessonOrder" role="tabpanel">
+                        <form method="post">
+                            <div class="form-group">
+                                <label for="question">Question</label>
+                                <input type="text" class="form-control" id="question" name="question" placeholder="Question..." value="@segment.Question">
+                            </div>
+                            <div class="form-group">
+                                <label for="correctAnswer">Correct Answer</label>
+                                <input type="text" class="form-control" id="correctAnswer" name="correctAnswer" style="border: 2px solid transparent; border-color:#28a745;" placeholder="Correct Answer..." value="@segment.CorrectAnswer">
+                            </div>
+                            <div class="form-group">
+                                <label for="wrongOption1">Wrong Option</label>
+                                <input type="text" class="form-control" id="wrongOption1" name="wrongAnswer1" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option..." value="@segment.WrongAnswer1">
+                            </div>
+                            <div class="form-group">
+                                <label for="wrongOption2">Wrong Option</label>
+                                <input type="text" class="form-control" id="wrongOption2" name="wrongAnswer2" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option..." value="@segment.WrongAnswer2">
+                            </div>
+                            <div class="form-group">
+                                <label for="wrongOption3">Wrong Option</label>
+                                <input type="text" class="form-control" id="wrongOption3" name="wrongAnswer3" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option..." value="@segment.WrongAnswer3">
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="segmentId" name="segmentId" value="@segment.Id">
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="lessonId" name="lessonId" value="@segment.LessonId">
+                            </div>
+                            <div class="button-wrapper">
+                                <button type="submit" class="btn btn-primary" name="submitType" value="save" asp-action="EditTestSegment">Save</button>
+                                <button type="submit" class="btn btn-primary" name="submitType" value="finish" asp-action="EditTestSegment">Save And Finish</button>
+                            </div>
+                        </form>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>
+
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "image paste table link code media imagetools"
+        ],
+        paste_data_images: true,
+        images_upload_url: '/Segments/UploadImage',
+        automatic_uploads: true,
+        images_reuse_filename: true,
+        file_picker_types: 'image',
+    });
+</script>
+<script>
+    window.onload = function () {
+        start();
+    };
+    function start() {
+        $('.tab').hide();
+        $('#1').show();
+    }
+    function showOne(id) {
+        $('.tab').hide();
+        $('#' + id).show();
+        console.log('showing ' + id);
+    }
+</script>
+

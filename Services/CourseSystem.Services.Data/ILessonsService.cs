@@ -18,5 +18,7 @@
         string GetLessonName(string lessonId);
 
         Task EditLesson(string lessonId, string name, string description);
+
+        Task DeleteLesson(string lessonId);
     }
 }

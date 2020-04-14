@@ -134,5 +134,11 @@
             };
             return this.RedirectToAction("EditLessons", "Lessons", viewModel);
         }
+
+        public async Task<IActionResult> DeleteCourse(string courseId)
+        {
+            await this.coursesService.DeleteCourse(courseId);
+            return this.Redirect("/Courses/CreatedCourses");
+        }
     }
 }

@@ -34,6 +34,16 @@
             return lesson;
         }
 
+        public async Task DeleteLesson(string lessonId)
+        {
+            var lesson = this.lessonsRepository
+                .All()
+                .FirstOrDefault(x => x.Id == lessonId);
+
+            this.lessonsRepository.Delete(lesson);
+            await this.lessonsRepository.SaveChangesAsync();
+        }
+
         public async Task EditLesson(string lessonId, string name, string description)
         {
             var lesson = this.lessonsRepository

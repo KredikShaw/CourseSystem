@@ -12,6 +12,6 @@
 
         public string CourseId { get; set; }
 
-        public virtual Course Course { get; set; }// TODO: build the configuration
+        public virtual Course Course { get; set; }
     }
 }
