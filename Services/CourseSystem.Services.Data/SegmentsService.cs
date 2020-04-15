@@ -47,6 +47,16 @@
             await this.segmentsRepository.SaveChangesAsync();
         }
 
+        public async Task DeleteSegment(string segmentId)
+        {
+            var segment = this.segmentsRepository
+                .All()
+                .FirstOrDefault(s => s.Id == segmentId);
+
+            this.segmentsRepository.Delete(segment);
+            await this.segmentsRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<T> GetSegments<T>(string lessonId)
         {
             var segments = this.segmentsRepository.All()

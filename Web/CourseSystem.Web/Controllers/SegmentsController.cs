@@ -134,5 +134,11 @@
                 return this.Redirect("/Courses/CreatedCourses");
             }
         }
+
+        public async Task<IActionResult> DeleteSegment(string segmentId, string lessonId)
+        {
+            await this.segmentsService.DeleteSegment(segmentId);
+            return this.RedirectToAction("EditSegments", "Segments", new { lessonId });
+        }
     }
 }

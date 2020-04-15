@@ -5,7 +5,7 @@
 @model CourseSystem.Web.ViewModels.Lessons.StudyLessonsViewModel
 
 <div class="wrapper">
-    @foreach (var lesson in Model.Lessons)
+    @foreach (var lesson in Model.Lessons.OrderBy(x=>x.Name))
     {
         <div class="jumbotron">
             <h1 class="display-4">@lesson.Name</h1>

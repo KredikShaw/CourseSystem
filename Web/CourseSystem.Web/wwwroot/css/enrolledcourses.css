@@ -127,6 +127,13 @@ div.lower {
         align-items: center;
     }
 
+    div.lower h3 {
+        display: flex;
+        margin-right: 1em;
+        margin-bottom: 0;
+        align-items: center;
+    }
+
 div.progress {
     border: 1px solid #083d77 !important;
 }
@@ -151,12 +158,13 @@ div.next {
         flex-wrap: wrap;
         justify-content: center;
         align-content: flex-start;
-        overflow:hidden;
+        overflow: hidden;
     }
-    div.lower{
-        flex-wrap:wrap;
-        height:8em;
-        justify-content:flex-start;
+
+    div.lower {
+        flex-wrap: wrap;
+        height: 8em;
+        justify-content: flex-start;
     }
 }
 

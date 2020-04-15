@@ -140,7 +140,7 @@
         return $.ajax(
             {
                 type: "GET",
-                url: "/Segments/UploadImage?path=" + path,
+                url: "/Segments/UploadImage?base64=" + path,
                 success: function () { console.log('success'); },
                 error: function (error) {
                     console.log(error);

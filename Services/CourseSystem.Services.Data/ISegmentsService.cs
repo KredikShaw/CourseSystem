@@ -23,5 +23,7 @@
         Task UpdateContentSegment(string segmentId, string content);
 
         Task UpdateTestSegment(string segmentId, string question, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3);
+
+        Task DeleteSegment(string segmentId);
     }
 }
