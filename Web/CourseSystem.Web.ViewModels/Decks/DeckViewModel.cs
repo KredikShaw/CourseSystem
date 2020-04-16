@@ -11,6 +11,8 @@
 
         public bool IsPublic { get; set; }
 
+        public string Thumbnail { get; set; }
+
         public ApplicationUser User { get; set; }
     }
 }

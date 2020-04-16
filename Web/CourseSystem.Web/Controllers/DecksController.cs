@@ -8,21 +8,25 @@
     using CourseSystem.Data.Models;
     using CourseSystem.Services.Data;
     using CourseSystem.Web.ViewModels.Decks;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class DecksController : Controller // TODO: Take the Card logic out of the deck logic and into it's own controller, service...
     {
         private readonly IDecksService decksService;
+        private readonly ICoursesService coursesService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly Random random;
 
         public DecksController(
             IDecksService decksService,
+            ICoursesService coursesService,
             UserManager<ApplicationUser> userManager,
             Random random)
         {
             this.decksService = decksService;
+            this.coursesService = coursesService;
             this.userManager = userManager;
             this.random = random;
         }
@@ -45,10 +49,11 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string name, string isPublic)
+        public async Task<IActionResult> Create(string name, string isPublic, IFormFile thumbnail)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var deck = await this.decksService.CreateDeck(name, isPublic, user.Id);
+            var thumbnailUrl = this.coursesService.UploadImageToCloudinary(thumbnail.OpenReadStream());
+            var deck = await this.decksService.CreateDeck(name, isPublic, user.Id, thumbnailUrl);
             return this.RedirectToAction("CreateCard", new { deckId = deck.Id });
         }
 

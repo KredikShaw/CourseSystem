@@ -3,6 +3,15 @@
   "defaultProvider": "jsdelivr",
   "libraries": [
     {
+      "library": "popper.js@1.14.3",
+      "destination": "wwwroot/lib/popper/",
+      "files": [
+        "dist/popper.js",
+        "dist/popper.min.js",
+        "dist/popper.min.js.map"
+      ]
+    },
+    {
       "library": "jquery@3.4.1",
       "destination": "wwwroot/lib/jquery/",
       "files": [

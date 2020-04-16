@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Report";
+}
+@model CourseSystem.Web.ViewModels.Courses.CourseIdViewModel
+<div class="wrapper p-5 m-2">
+    <form method="post">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" name="title" id="title" aria-describedby="titleHelp" placeholder="Enter title">
+            <small id="titleHelp" class="form-text text-muted">What is the problem about</small>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea type="text" class="form-control" name="description" id="description" aria-describedby="descriptionHelp" rows="10" placeholder="Enter description..."></textarea>
+            <small id="descriptionHelp" class="form-text text-muted">Give us a short description of the problem with a lot of keywords</small>
+        </div>
+        <div class="form-group">
+            <input type="hidden" class="form-control" id="courseId" name="courseId" value="@Model.CourseId">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

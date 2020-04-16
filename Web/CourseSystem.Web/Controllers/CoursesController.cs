@@ -16,17 +16,20 @@
         private readonly ICoursesService coursesService;
         private readonly ICategoriesService categoriesService;
         private readonly ILessonsService lessonsService;
+        private readonly IReportsService reportsService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public CoursesController(
             ICoursesService coursesService,
             ICategoriesService categoriesService,
             ILessonsService lessonsService,
+            IReportsService reportsService,
             UserManager<ApplicationUser> userManager)
         {
             this.coursesService = coursesService;
             this.categoriesService = categoriesService;
             this.lessonsService = lessonsService;
+            this.reportsService = reportsService;
             this.userManager = userManager;
         }
 
@@ -139,6 +142,24 @@
         {
             await this.coursesService.DeleteCourse(courseId);
             return this.Redirect("/Courses/CreatedCourses");
+        }
+
+        public IActionResult Report(string courseId)
+        {
+            var viewModel = new CourseIdViewModel
+            {
+                CourseId = courseId,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Report(string title, string description, string courseId)
+        {
+            var userId = this.userManager.GetUserId(this.User);
+            await this.reportsService.CreateReportAsync(title, description, courseId, userId);
+            return this.RedirectToAction("EnrolledCourses");
         }
     }
 }

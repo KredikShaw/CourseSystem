@@ -10,7 +10,11 @@
     {
         public IActionResult Index()
         {
-            if (this.User.Identity.IsAuthenticated)
+            if (this.User.IsInRole("Administrator"))
+            {
+                return this.Redirect("/Administration/Dashboard");
+            }
+            else if (this.User.Identity.IsAuthenticated)
             {
                 return this.Redirect("/Courses/EnrolledCourses");
             }
@@ -30,6 +34,6 @@
         {
             return this.View(
                 new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
-        }
+        }//TODO: Show all courses to admin with delete buttons, user notifications?
     }
 }

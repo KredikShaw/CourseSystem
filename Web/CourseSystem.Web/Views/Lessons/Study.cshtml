@@ -35,6 +35,57 @@
                                         <button onclick="clicked(this)" class="blockThis element-animation1 btn btn-lg btn-primary btn-block" style="margin-top:0.5em;">@segment.WrongAnswer2</button>
                                         <button onclick="clicked(this)" id="correct" class="blockThis element-animation1 btn btn-lg btn-primary btn-block" style="margin-top:0.5em;">@segment.CorrectAnswer</button>
                                         <button onclick="clicked(this)" class="blockThis element-animation1 btn btn-lg btn-primary btn-block" style="margin-top:0.5em;">@segment.WrongAnswer3</button>
+                                        <script>
+                                            function clicked(clicked) {
+                                                var answer = document.getElementsByClassName('answer');
+
+                                                if (clicked.id == 'correct') {
+                                                    console.log('correct');
+                                                    for (var i = 0; i < answer.length; i++) {
+                                                        answer[i].innerHTML = 'Correct';
+                                                        answer[i].style.color = '#00FF00';
+                                                    }
+                                                    correctAnswers++;
+                                                }
+                                                else {
+                                                    console.log('incorrect');
+                                                    for (var i = 0; i < answer.length; i++) {
+                                                        answer[i].innerHTML = 'Incorrect';
+                                                        answer[i].style.color = '#FF0000';
+                                                    }
+                                                    wrongAnswers++;
+                                                }
+                                                blockButtons();
+                                                if ($('#@Model.Segments.Count()').is(':visible')) {
+                                                    setTimeout(function () {
+                                                        if (wrongAnswers >= correctAnswers) {
+                                                            if (window.confirm('Too many wrong answers, do you want to retake this lesson?')) {
+                                                                console.log('point');
+                                                                showOne('1');
+                                                                wrongAnswers = 0;
+                                                                correctAnswers = 0;
+                                                                showOne('1');
+                                                            }
+                                                            else {
+                                                                alert('Lesson Completed!');
+                                                            }
+                                                        }
+                                                        else {
+                                                            alert('Lesson Completed!');
+                                                        }
+                                                    }, 2000);
+                                                }
+                                                else {
+                                                    setTimeout(function () {
+                                                        //showOne(@segment.PlaceInLessonOrder + 1)
+                                                        for (var i = 0; i < answer.length; i++) {
+                                                            answer[i].innerHTML = 'Waiting...';
+                                                            answer[i].style.color = '#6c757d';
+                                                        }
+                                                    }, 2000);
+                                                }
+                                            }
+                                        </script>
                                     </div>
                                 </div>
                                 <div class="modal-footer text-muted">
@@ -54,57 +105,7 @@
                 <a id="finishButton" class="finishButton btn btn-primary btn-lg" role="button" asp-action="Study" asp-controller="Courses" asp-route-courseId="@Model.CourseId">Finish</a>
             }
         </div>
-        <script>
-            function clicked(clicked) {
-                var answer = document.getElementsByClassName('answer');
 
-                if (clicked.id == 'correct') {
-                    console.log('correct');
-                    for (var i = 0; i < answer.length; i++) {
-                        answer[i].innerHTML = 'Correct';
-                        answer[i].style.color = '#00FF00';
-                    }
-                    correctAnswers++;
-                }
-                else {
-                    console.log('incorrect');
-                    for (var i = 0; i < answer.length; i++) {
-                        answer[i].innerHTML = 'Incorrect';
-                        answer[i].style.color = '#FF0000';
-                    }
-                    wrongAnswers++;
-                }
-                blockButtons();
-                if ($('#@Model.Segments.Count()').is(':visible')) {
-                    setTimeout(function () {
-                        if (wrongAnswers >= correctAnswers) {
-                            if (window.confirm('Do you want to retake this lesson?')) {
-                                console.log('point');
-                                showOne('1');
-                                wrongAnswers = 0;
-                                correctAnswers = 0;
-                                showOne('1');
-                            }
-                            else {
-                                alert('Lesson Completed!');
-                            }
-                        }
-                        else {
-                            alert('Lesson Completed!');
-                        }
-                    }, 2000);
-                }
-                else {
-                    setTimeout(function () {
-                        showOne(@segment.PlaceInLessonOrder + 1)
-                        for (var i = 0; i < answer.length; i++) {
-                            answer[i].innerHTML = 'Waiting...';
-                            answer[i].style.color = '#6c757d';
-                        }
-                    }, 2000);
-                }
-            }
-        </script>
         <script>
             function Randomize() {
                 var question = '@segment.Question';

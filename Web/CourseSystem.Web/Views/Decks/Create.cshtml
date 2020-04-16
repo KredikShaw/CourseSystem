@@ -3,7 +3,7 @@
     ViewData["Title"] = "Create";
 }
 <div class="capsule d-flex justify-content-center h-100 mt-4">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">Deck Name</label>
             <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" placeholder="Name...">
@@ -20,6 +20,10 @@
             <label class="form-check-label" for="private">
                 Private
             </label>
+        </div>
+        <div class="form-group">
+            <label for="thumbnail">Thumbnail</label>
+            <input type="file" class="form-control-file" id="thumbnail" name="thumbnail">
         </div>
         <button type="submit" class="btn btn-primary button-color">Add Card</button>
     </form>

@@ -22,13 +22,13 @@
     <div class="main">
         @foreach (var course in Model.Courses)
         {
-            <div class="course">
+            <div class="course" style="position:relative;">
+                <a class="btn" id="report" asp-controller="Courses" asp-action="Report" asp-route-courseId="@course.Id" style="position:absolute; left:94%;" data-toggle="tooltip" data-placement="top" title="Report">
+                    <i style="font-size:2.5rem;" class="fas fa-exclamation-circle text-danger"></i>
+                </a>
                 <img src="@course.ThumbnailUrl" alt="No Thumbnail">
                 <div>
                     <h1 class="title">@course.Name</h1>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
                     <div class="lower">
                         <h3>0/@course.LessonsCount</h3>
                         <h3>@course.Difficulty</h3>
@@ -45,3 +45,8 @@
 <!-- /#page-content-wrapper -->
 <!-- /#wrapper -->
 <!-- Bootstrap core JavaScript -->
+<script>
+    $(function () {
+        $('[data-tooltip="tooltip"]').tooltip()
+    });
+</script>

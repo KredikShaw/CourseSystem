@@ -32,7 +32,7 @@
             await this.cardsRepository.SaveChangesAsync();
         }
 
-        public async Task<Deck> CreateDeck(string name, string isPublic, string userId)
+        public async Task<Deck> CreateDeck(string name, string isPublic, string userId, string thumbnailUrl)
         {
             bool isPub = true;
 
@@ -45,6 +45,7 @@
             {
                 Name = name,
                 IsPublic = isPub,
+                Thumbnail = thumbnailUrl,
                 UserId = userId,
             };
 

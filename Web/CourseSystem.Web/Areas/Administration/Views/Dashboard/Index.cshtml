@@ -1,7 +1,22 @@
-﻿@model CourseSystem.Web.ViewModels.Administration.Dashboard.IndexViewModel
-@{
+﻿@{
     this.ViewData["Title"] = "Admin dashboard";
 }
+@model CourseSystem.Web.ViewModels.Administration.Dashboard.ReportsViewModel
 
-<h1>@this.ViewData["Title"]</h1>
-Settings: @this.Model.SettingsCount
+<div class="wrapper">
+    @foreach (var report in Model.Reports.OrderByDescending(x => x.CreatedOn))
+    {
+        <div class="jumbotron">
+            <h4>For course: @report.CourseName</h4>
+            <h4>By User: @report.UserUserName</h4>
+            <hr class="my-4">
+            <h1 class="display-4">@report.Title</h1>
+            <p class="lead">@report.Description</p>
+            <hr class="my-4">
+            <p>Mark report as completed</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Dashboard" asp-action="CompleteReport" asp-route-reportId="@report.Id" role="button">Completed</a>
+            </p>
+        </div>
+    }
+</div>
