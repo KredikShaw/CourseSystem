@@ -10,7 +10,7 @@
     {
         Task<Course> CreateCourseAsync(string name, string category, string difficulty, string imageUri, string description, string userId);
 
-        IEnumerable<T> GetAllCourses<T>(string userId);
+        IEnumerable<T> GetAllUserCourses<T>(string userId);
 
         IEnumerable<T> GetCoursesByCategory<T>(int categoryId, string userId);
 
@@ -29,5 +29,9 @@
         Task EditCourse(string courseId, string name, string category, string difficulty, string imageUri, string description);
 
         Task DeleteCourse(string courseId);
+
+        IEnumerable<T> GetAllCourses<T>();
+
+        Task UndeleteCourse(string courseId);
     }
 }

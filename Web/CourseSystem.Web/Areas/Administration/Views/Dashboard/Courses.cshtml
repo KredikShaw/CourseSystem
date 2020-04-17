@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Courses";
+}
+@model CourseSystem.Web.ViewModels.Administration.Dashboard.AdminCoursesViewModel
+
+<div class="dashboard p-4">
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Reports</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Administration" asp-controller="Dashboard" asp-action="Courses">Courses</a>
+        </li>
+    </ul>
+
+    <div class="wrapper p-3">
+        @foreach (var course in Model.Courses)
+        {
+            <div class="jumbotron">
+                <h1 class="display-4">@course.Name</h1>
+                <h3>@course.UserUserName</h3>
+                <hr class="my-4">
+                <h3>Lessons:</h3>
+                @foreach (var lesson in course.Lessons)
+                {
+                    <h4>@lesson.Name</h4>
+                }
+                <hr class="my-4">
+                <p class="lead">
+                    @if (!course.IsDeleted)
+                    {
+                        <a class="btn btn-danger btn-lg" asp-area="Administration" asp-controller="Dashboard" asp-action="DeleteCourse" asp-route-courseId="@course.Id" role="button">Delete Course</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-success btn-lg" asp-area="Administration" asp-controller="Dashboard" asp-action="UndeleteCourse" asp-route-courseId="@course.Id" role="button">Undelete Course</a>
+                    }
+                </p>
+            </div>
+        }
+    </div>
+</div>

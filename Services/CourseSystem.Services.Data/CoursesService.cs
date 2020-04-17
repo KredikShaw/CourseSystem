@@ -90,7 +90,17 @@
             await this.usersCoursesRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<T> GetAllCourses<T>(string userId)
+        public IEnumerable<T> GetAllCourses<T>()
+        {
+            var courses = this.coursesRepository
+                .AllWithDeleted()
+                .To<T>()
+                .ToList();
+
+            return courses;
+        }
+
+        public IEnumerable<T> GetAllUserCourses<T>(string userId)
         {
             var userCourses = this.usersCoursesRepository
                 .All()
@@ -162,6 +172,16 @@
             }
 
             return courses;
+        }
+
+        public async Task UndeleteCourse(string courseId)
+        {
+            var course = this.coursesRepository
+                .AllWithDeleted()
+                .FirstOrDefault(x => x.Id == courseId);
+
+            this.coursesRepository.Undelete(course);
+            await this.coursesRepository.SaveChangesAsync();
         }
 
         public string UploadImageToCloudinary(Stream imageFileStream)

@@ -40,7 +40,7 @@
                 Courses = this.coursesService.GetEnrolledCourses<EnrolledCourseViewModel>(this.userManager.GetUserId(this.User)),
             };
             return this.View(viewModel);
-        }
+        }//TODO: Implement Searching
 
         public IActionResult CreatedCourses()
         {
@@ -81,7 +81,7 @@
         {
             var viewModel = new DiscoverCoursesViewModel
             {
-                Courses = this.coursesService.GetAllCourses<DiscoverCourseViewModel>(this.userManager.GetUserId(this.User)),
+                Courses = this.coursesService.GetAllUserCourses<DiscoverCourseViewModel>(this.userManager.GetUserId(this.User)),
             };
             return this.View("Discover", viewModel);
         }
