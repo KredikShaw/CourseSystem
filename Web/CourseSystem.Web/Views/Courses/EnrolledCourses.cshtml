@@ -13,7 +13,7 @@
     <div class="container">
         <div class="d-flex justify-content-center">
             <div class="searchbar">
-                <input class="search_input" type="text" name="" placeholder="Search...">
+                <input class="search_input" type="text" name="" onchange="Search(this.value)" placeholder="Search...">
                 <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
             </div>
         </div>
@@ -49,4 +49,37 @@
     $(function () {
         $('[data-tooltip="tooltip"]').tooltip()
     });
+</script>
+
+<script>
+    var main = document.getElementsByClassName('main')[0];
+    var html = main.innerHTML;
+    function Search(text) {
+        var names = [];
+        var difficulties = [];
+        var lessonCounts = [];
+        var thumbnailUrls = [];
+        var Ids = [];
+        @foreach (var course in Model.Courses)
+        {
+            @:names.push('@course.Name')
+            @:difficulties.push('@course.Difficulty')
+            @:lessonCounts.push('@course.LessonsCount')
+            @:thumbnailUrls.push('@course.ThumbnailUrl')
+            @:Ids.push('@course.Id')
+        }
+        var main = document.getElementsByClassName('main')[0];
+        if (text != '') {
+            if (names.includes(text)) {
+                var index = names.indexOf(text);
+                main.innerHTML = '<div class="course" style="position:relative;"><a class="btn" id="report" href="/Courses/Report?courseId="' + Ids[index] + '" style="position:absolute; left:94%;" data-toggle="tooltip" data-placement="top" title="Report"><i style="font-size:2.5rem;" class="fas fa-exclamation-circle text-danger"></i></a><img src="' + thumbnailUrls[index] + '" alt="No Thumbnail"><div><h1 class="title">' + names[index] + '</h1><div class="lower"><h3>0/' + lessonCounts[index] + '</h3><h3>' + difficulties[index] + '</h3><a class="btn btn-primary btn-lg" href="/Courses/Study?courseId="'+Ids[index]+'" role="button">Study</a></div></div></div>';
+            }
+            else {
+                alert('No such course exists');
+            }
+        }
+        else {
+            main.innerHTML = html;
+        }
+    }
 </script>

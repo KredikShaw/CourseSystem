@@ -5,22 +5,69 @@
 
 <link href="~/css/enrolledcourses.css" rel="stylesheet">
 <link href="~/css/createdcourses.css" rel="stylesheet">
+<div id="page-content-wrapper">
 
-<div class="main">
-    @foreach (var course in Model.Courses)
-    {
-        <div class="course">
-            <img src="@course.ThumbnailUrl" alt="No Thumbnail">
-            <div>
-                <h1 class="title">@course.Name</h1>
-                <p class="h5">@course.Description</p>
-                <div class="lower">
-                    <h3>Lessons: @course.LessonsCount</h3>
-                    <h3>Difficulty: @course.Difficulty</h3>
-                    <h3>Students Enrolled: @course.EnrolledUsersCount</h3>
-                    <a class="btn btn-primary btn-lg" asp-action="Enroll" asp-controller="Courses" asp-route-courseId="@course.Id" role="button">Enroll</a>
-                </div>
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="searchbar">
+                <input class="search_input" type="text" name="" onchange="Search(this.value)" placeholder="Search...">
+                <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
             </div>
         </div>
-    }
+    </div>
+
+    <div class="main">
+        @foreach (var course in Model.Courses)
+        {
+            <div class="course">
+                <img src="@course.ThumbnailUrl" alt="No Thumbnail">
+                <div>
+                    <h1 class="title">@course.Name</h1>
+                    <p class="h5">@course.Description</p>
+                    <div class="lower">
+                        <h3>Lessons: @course.LessonsCount</h3>
+                        <h3>Difficulty: @course.Difficulty</h3>
+                        <h3>Students Enrolled: @course.EnrolledUsersCount</h3>
+                        <a class="btn btn-primary btn-lg" asp-action="Enroll" asp-controller="Courses" asp-route-courseId="@course.Id" role="button">Enroll</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+<script>
+    var main = document.getElementsByClassName('main')[0];
+    var html = main.innerHTML;
+    function Search(text) {
+        var names = [];
+        var difficulties = [];
+        var lessonCounts = [];
+        var thumbnailUrls = [];
+        var Ids = [];
+        var enrolledUsersCounts = [];
+        var descriptions = [];
+        @foreach (var course in Model.Courses)
+        {
+            @:names.push('@course.Name')
+            @:difficulties.push('@course.Difficulty')
+            @:lessonCounts.push('@course.LessonsCount')
+            @:thumbnailUrls.push('@course.ThumbnailUrl')
+            @:Ids.push('@course.Id')
+            @:enrolledUsersCounts.push('@course.EnrolledUsersCount')
+            @:descriptions.push('@course.Description')
+        }
+        var main = document.getElementsByClassName('main')[0];
+        if (text != '') {
+            if (names.includes(text)) {
+                var index = names.indexOf(text);
+                main.innerHTML = '<div class="course"><img src="' + thumbnailUrls[index] + '" alt="No Thumbnail"><div><h1 class="title">' + names[index] + '</h1><p class="h5">' + descriptions[index] + '</p><div class="lower"><h3>Lessons: ' + lessonCounts[index] + '</h3><h3>Difficulty: ' + difficulties[index] + '</h3><h3>Students Enrolled: ' + enrolledUsersCounts[index] + '</h3><a class="btn btn-primary btn-lg" href="/Courses/Enroll?courseId=' + Ids[index] + '" role="button">Enroll</a></div></div></div>';
+            }
+            else {
+                alert('No such course exists');
+            }
+        }
+        else {
+            main.innerHTML = html;
+        }
+    }
+</script>

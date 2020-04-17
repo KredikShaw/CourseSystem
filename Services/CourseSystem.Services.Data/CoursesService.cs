@@ -168,7 +168,10 @@
                     .To<T>()
                     .FirstOrDefault();
 
-                courses.Add(course);
+                if (course != null)
+                {
+                    courses.Add(course);
+                }
             }
 
             return courses;
