@@ -30,7 +30,7 @@
                                     <h3><span class="label label-warning" id="qid"></span>@segment.Question</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="quiz @segment.Question" id="quiz" data-toggle="buttons">
+                                    <div class="quiz @segment.Question[0]" id="quiz" data-toggle="buttons">
                                         <button onclick="clicked(this)" class="blockThis element-animation1 btn btn-lg btn-primary btn-block" style="margin-top:0.5em;">@segment.WrongAnswer1</button>
                                         <button onclick="clicked(this)" class="blockThis element-animation1 btn btn-lg btn-primary btn-block" style="margin-top:0.5em;">@segment.WrongAnswer2</button>
                                         <button onclick="clicked(this)" id="correct" class="blockThis element-animation1 btn btn-lg btn-primary btn-block" style="margin-top:0.5em;">@segment.CorrectAnswer</button>
@@ -102,15 +102,17 @@
             }
             else
             {
-                <a id="finishButton" class="finishButton btn btn-primary btn-lg" role="button" asp-action="Study" asp-controller="Courses" asp-route-courseId="@Model.CourseId">Finish</a>
+                <a id="finishButton" class="finishButton btn btn-primary btn-lg" role="button" asp-action="CompleteLesson" asp-controller="Lessons" asp-route-courseId="@Model.CourseId" asp-route-lessonId="@Model.LessonId">Finish</a>
             }
         </div>
 
         <script>
             function Randomize() {
                 var question = '@segment.Question';
+                var className = question[0];
+                console.log(className);
                 if (question != '') {
-                    var list = document.getElementsByClassName('@segment.Question')[0];
+                    var list = document.getElementsByClassName(className)[0];
                     for (var i = list.children.length; i >= 0; i--) {
                         list.appendChild(list.children[Math.random() * i | 0]);
                     }

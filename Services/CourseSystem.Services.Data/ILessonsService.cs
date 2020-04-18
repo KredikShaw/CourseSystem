@@ -13,6 +13,8 @@
 
         IEnumerable<T> GetLessons<T>(string courseId);
 
+        IEnumerable<Lesson> GetLessons(string courseId);
+
         T GetLesson<T>(string lessonId);
 
         string GetLessonName(string lessonId);
@@ -20,5 +22,9 @@
         Task EditLesson(string lessonId, string name, string description);
 
         Task DeleteLesson(string lessonId);
+
+        Task CreateUserLesson(string userId, string lessonId);
+
+        int GetCompletedLessons(string courseId);
     }
 }

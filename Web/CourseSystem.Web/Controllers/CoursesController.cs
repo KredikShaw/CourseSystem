@@ -1,5 +1,6 @@
 ﻿namespace CourseSystem.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CourseSystem.Data.Models;
@@ -17,6 +18,7 @@
         private readonly ICategoriesService categoriesService;
         private readonly ILessonsService lessonsService;
         private readonly IReportsService reportsService;
+        private readonly IUsersLessonsService usersLessonsService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public CoursesController(
@@ -24,12 +26,14 @@
             ICategoriesService categoriesService,
             ILessonsService lessonsService,
             IReportsService reportsService,
+            IUsersLessonsService usersLessonsService,
             UserManager<ApplicationUser> userManager)
         {
             this.coursesService = coursesService;
             this.categoriesService = categoriesService;
             this.lessonsService = lessonsService;
             this.reportsService = reportsService;
+            this.usersLessonsService = usersLessonsService;
             this.userManager = userManager;
         }
 
@@ -39,6 +43,11 @@
             {
                 Courses = this.coursesService.GetEnrolledCourses<EnrolledCourseViewModel>(this.userManager.GetUserId(this.User)),
             };
+            foreach (var course in viewModel.Courses)
+            {
+                course.CompletedLessons = this.lessonsService.GetCompletedLessons(course.Id);
+            }
+
             return this.View(viewModel);
         }
 
@@ -83,7 +92,7 @@
             {
                 Courses = this.coursesService.GetAllUserCourses<DiscoverCourseViewModel>(this.userManager.GetUserId(this.User)),
             };
-            return this.View("Discover", viewModel);
+            return this.View("Discover", viewModel); // TODO: More info button on discover courses, send to another page for the course
         }
 
         public IActionResult DiscoverByCategory(int categoryId)
@@ -106,6 +115,7 @@
             var viewModel = new StudyLessonsViewModel
             {
                 Lessons = this.lessonsService.GetLessons<StudyLessonViewModel>(courseId),
+                UserLessons = this.usersLessonsService.GetAllUserLessons(),
             };
             return this.View(viewModel);
         }

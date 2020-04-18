@@ -11,6 +11,7 @@
         {
             this.Id = Guid.NewGuid().ToString();
             this.Segments = new HashSet<Segment>();
+            this.UsersLessons = new HashSet<UserLesson>();
         }
 
         public string Name { get; set; }
@@ -22,5 +23,7 @@
         public virtual Course Course { get; set; }
 
         public virtual ICollection<Segment> Segments { get; set; }
+
+        public virtual ICollection<UserLesson> UsersLessons { get; set; }
     }
 }

@@ -5,10 +5,16 @@
 @model CourseSystem.Web.ViewModels.Lessons.StudyLessonsViewModel
 
 <div class="wrapper">
-    @foreach (var lesson in Model.Lessons.OrderBy(x=>x.Name))
+    @foreach (var lesson in Model.Lessons.OrderBy(x => x.Name))
     {
         <div class="jumbotron">
-            <h1 class="display-4">@lesson.Name</h1>
+            <div class="d-flex">
+                @if (Model.UserLessons.Select(x => x.LessonId).Contains(lesson.Id))
+                {
+                    <img class="mr-2" src="https://res.cloudinary.com/alekskn99/image/upload/v1587237853/checkmark_gcuobl.png" width="65" height="65" alt="Check Mark" />
+                }
+                <h1 class="display-4">@lesson.Name</h1>
+            </div>
             <p class="lead">@lesson.Description</p>
             <hr class="my-4">
             <p>Segments for this lesson: @lesson.Segments.Count()</p>

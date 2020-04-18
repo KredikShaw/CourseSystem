@@ -42,6 +42,8 @@
 
         public DbSet<Report> Reports { get; set; }
 
+        public DbSet<UserLesson> UsersLessons { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -71,6 +73,11 @@
             builder.Entity<UserCourse>(entity =>
             {
                 entity.HasKey(x => new { x.UserId, x.CourseId });
+            });
+
+            builder.Entity<UserLesson>(entity =>
+            {
+                entity.HasKey(x => new { x.UserId, x.LessonId });
             });
 
             EntityIndexesConfiguration.Configure(builder);

@@ -1,25 +1,26 @@
 ﻿namespace CourseSystem.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
+    using CourseSystem.Data.Models;
     using CourseSystem.Services.Data;
     using CourseSystem.Web.ViewModels.Courses;
     using CourseSystem.Web.ViewModels.Lessons;
     using CourseSystem.Web.ViewModels.Segments;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class LessonsController : Controller
     {
         private readonly ILessonsService lessonsService;
         private readonly ISegmentsService segmentsService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public LessonsController(ILessonsService lessonsService, ISegmentsService segmentsService)
+        public LessonsController(ILessonsService lessonsService, ISegmentsService segmentsService, UserManager<ApplicationUser> userManager)
         {
             this.lessonsService = lessonsService;
             this.segmentsService = segmentsService;
+            this.userManager = userManager;
         }
 
         public IActionResult CreateLesson(string courseId)
@@ -53,6 +54,7 @@
             {
                 Name = this.lessonsService.GetLessonName(lessonId),
                 Segments = this.segmentsService.GetSegments<StudySegmentViewModel>(lessonId),
+                LessonId = lessonId,
                 CourseId = courseId,
             };
 
@@ -85,6 +87,20 @@
         {
             await this.lessonsService.DeleteLesson(lessonId);
             return this.RedirectToAction("EditLessons", "Lessons", new { courseId });
+        }
+
+        public async Task<IActionResult> CompleteLesson(string lessonId, string courseId)
+        {
+            var userId = this.userManager.GetUserId(this.User);
+
+            await this.lessonsService.CreateUserLesson(userId, lessonId);
+
+            var viewModel = new CourseIdViewModel
+            {
+                CourseId = courseId,
+            };
+
+            return this.RedirectToAction("Study", "Courses", viewModel);
         }
     }
 }

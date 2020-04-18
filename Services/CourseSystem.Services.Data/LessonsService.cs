@@ -13,10 +13,14 @@
     public class LessonsService : ILessonsService
     {
         private readonly IDeletableEntityRepository<Lesson> lessonsRepository;
+        private readonly IRepository<UserLesson> usersLessonsRepository;
+        private readonly IDeletableEntityRepository<Course> coursesRepository;
 
-        public LessonsService(IDeletableEntityRepository<Lesson> lessonsRepository)
+        public LessonsService(IDeletableEntityRepository<Lesson> lessonsRepository, IRepository<UserLesson> usersLessonsRepository, IDeletableEntityRepository<Course> coursesRepository)
         {
             this.lessonsRepository = lessonsRepository;
+            this.usersLessonsRepository = usersLessonsRepository;
+            this.coursesRepository = coursesRepository;
         }
 
         public async Task<Lesson> CreateLessonAsync(string title, string description, string courseId)
@@ -32,6 +36,20 @@
             await this.lessonsRepository.SaveChangesAsync();
 
             return lesson;
+        }
+
+        public async Task CreateUserLesson(string userId, string lessonId)
+        {
+            if (!this.usersLessonsRepository.All().Any(x => x.LessonId == lessonId && x.UserId == userId))
+            {
+                var userLesson = new UserLesson
+                {
+                    UserId = userId,
+                    LessonId = lessonId,
+                };
+                await this.usersLessonsRepository.AddAsync(userLesson);
+                await this.usersLessonsRepository.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteLesson(string lessonId)
@@ -55,6 +73,14 @@
 
             this.lessonsRepository.Update(lesson);
             await this.lessonsRepository.SaveChangesAsync();
+        }
+
+        public int GetCompletedLessons(string courseId)
+        {
+            var lessonIds = this.GetLessons(courseId).Select(x => x.Id);
+            var userLessonIds = this.usersLessonsRepository.All().Select(x => x.LessonId).ToList();
+            var count = lessonIds.Intersect(userLessonIds).Count();
+            return count;
         }
 
         public T GetLesson<T>(string lessonId)
@@ -84,6 +110,15 @@
             var lessons = this.lessonsRepository.All()
                 .Where(x => x.CourseId == courseId)
                 .To<T>()
+                .ToList();
+
+            return lessons;
+        }
+
+        public IEnumerable<Lesson> GetLessons(string courseId)
+        {
+            var lessons = this.lessonsRepository.All()
+                .Where(x => x.CourseId == courseId)
                 .ToList();
 
             return lessons;

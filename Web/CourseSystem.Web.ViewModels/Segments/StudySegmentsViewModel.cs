@@ -7,6 +7,8 @@
 
     public class StudySegmentsViewModel : IMapFrom<Segment>
     {
+        public string LessonId { get; set; }
+
         public string CourseId { get; set; }
 
         public string Name { get; set; }

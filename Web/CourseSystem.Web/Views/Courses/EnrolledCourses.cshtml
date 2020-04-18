@@ -30,7 +30,7 @@
                 <div>
                     <h1 class="title">@course.Name</h1>
                     <div class="lower">
-                        <h3>0/@course.LessonsCount</h3>
+                        <h3>@course.CompletedLessons/@course.LessonsCount</h3>
                         <h3>@course.Difficulty</h3>
                         <a class="btn btn-primary btn-lg" asp-action="Study" asp-controller="Courses" asp-route-courseId="@course.Id" role="button">Study</a>
                     </div>
