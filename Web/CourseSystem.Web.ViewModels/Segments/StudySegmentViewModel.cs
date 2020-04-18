@@ -30,6 +30,14 @@
 
         public string Discriminator { get; set; }
 
-        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
+        public string SanitizedContent
+        {
+            get
+            {
+                var html = new HtmlSanitizer();
+                html.AllowedTags.Add("iframe");
+                return html.Sanitize(this.Content);
+            }
+        }
     }
 }

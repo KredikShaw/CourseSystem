@@ -33,8 +33,72 @@
                 </div>
             </div>
         }
+        <div aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" id="previous">
+                    <a class="page-link" href="#" onclick="GoToPerviousPage()" tabindex="-1">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.Courses.Count() / 10 + 1; i++)
+                {
+                    <li class="page-item pageNumber" id="page-@i"><a class="page-link" href="#" onclick="GoToPage(@i, this.parentElement)">@i</a></li>
+                }
+                <li class="page-item" id="next">
+                    <a class="page-link" href="#" onclick="GoToNextPage()">Next</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
+
+<script>
+    var currentPage = 1;
+    var numberOfPages = Math.floor(document.getElementsByClassName('course').length / 10 + 1);
+    function GoToPage(page) {
+        currentPage = page;
+        setActive(page);
+        CheckBounds();
+        var coursesArray = document.getElementsByClassName('course');
+        for (var i = 0; i < coursesArray.length; i++) {
+            coursesArray[i].hidden = true;
+        }
+        for (var i = (page - 1) * 10; i <= ((page - 1) * 10) + 9; i++) {
+            coursesArray[i].hidden = false;
+        }
+    }
+    function GoToNextPage() {
+        GoToPage(currentPage + 1);
+    }
+    function GoToPerviousPage() {
+        GoToPage(currentPage - 1);
+    }
+    function CheckBounds() {
+        var previous = document.getElementById('previous');
+        if (currentPage == 1) {
+            previous.classList.add("disabled");
+        }
+        else {
+            previous.classList.remove("disabled");
+        }
+
+        if (currentPage == numberOfPages) {
+            document.getElementById('next').classList.add("disabled");
+        }
+        else {
+            document.getElementById('next').classList.remove("disabled");
+        }
+    }
+    function setActive(page) {
+        var pageNumbers = document.getElementsByClassName('pageNumber');
+        for (var i = 0; i < pageNumbers.length; i++) {
+            pageNumbers[i].classList.remove('active');
+        }
+        var element = document.getElementById('page-' + page);
+        element.classList.add('active');
+    }
+    GoToPage(1);
+    CheckBounds();
+</script>
+
 <script>
     var main = document.getElementsByClassName('main')[0];
     var html = main.innerHTML;
