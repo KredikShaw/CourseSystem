@@ -1,32 +1,22 @@
-﻿namespace CourseSystem.Web.ViewModels.Courses
+﻿namespace CourseSystem.Web.ViewModels.Lessons
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Text;
 
-    using CourseSystem.Data.Models;
-    using CourseSystem.Services.Mapping;
-    using Microsoft.AspNetCore.Http;
-
-    public class EditCourseViewModel : IMapFrom<Course>
+    public class LessonInputModel
     {
-        public string Id { get; set; }
-
         [Required(ErrorMessage = "Field is Required")]
         [MinLength(3, ErrorMessage = "Should be at least 3 symbols long")]
         public string Name { get; set; }
-
-        public string CategoryName { get; set; }
-
-        public string Difficulty { get; set; }
-
-        public string ThumbnailUrl { get; set; }
 
         [Required(ErrorMessage = "Field is Required")]
         [MinLength(20, ErrorMessage = "Should be at least 20 symbols long")]
         public string Description { get; set; }
 
-        public IFormFile Thumbnail { get; set; }
+        public string CourseId { get; set; }
+
+        public int PlaceInOrder { get; set; }
     }
 }

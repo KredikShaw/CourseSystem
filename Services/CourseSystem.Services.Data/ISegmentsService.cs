@@ -20,10 +20,10 @@
 
         IEnumerable<T> GetSegments<T>(string lessonId);
 
-        Task UpdateContentSegment(string segmentId, string content);
+        Task UpdateContentSegment(string segmentId, string content, string userId);
 
-        Task UpdateTestSegment(string segmentId, string question, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3);
+        Task UpdateTestSegment(string segmentId, string question, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string userId);
 
-        Task DeleteSegment(string segmentId);
+        Task DeleteSegment(string segmentId, string userId);
     }
 }

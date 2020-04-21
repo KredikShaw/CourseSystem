@@ -2,41 +2,46 @@
 @{
     ViewData["Title"] = "CreateCourse";
 }
-@model CourseSystem.Web.ViewModels.Categories.CategoriesViewModel
+@model CourseSystem.Web.ViewModels.Courses.CourseInputModel
 
 <link href="~/css/style3.css" rel="stylesheet" />
 <div class="wrapper">
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="name">Course Name</label>
-            <input type="text" class="form-control" id="name" name="name">
+            <label asp-for="Name">Course Name</label>
+            <input asp-for="Name" type="text" class="form-control" id="Name" name="Name">
+            <span asp-validation-for="Name"></span>
         </div>
         <div class="form-group">
-            <label for="category">Category</label>
-            <select class="form-control" id="category" name="category">
+            <label asp-for="Category">Category</label>
+            <select asp-for="Category" class="form-control" id="Category" name="Category">
                 @foreach (var category in Model.Categories)
                 {
                     <option>@category.Name</option>
                 }
             </select>
+            <span asp-validation-for="Category"></span>
         </div>
         <div class="form-group">
-            <label for="difficulty">Difficulty</label>
-            <select class="form-control" id="difficulty" name="difficulty">
+            <label asp-for="Difficulty">Difficulty</label>
+            <select asp-for="Difficulty" class="form-control" id="Difficulty" name="Difficulty">
                 <option>Absolute Beginner</option>
                 <option>Beginner</option>
                 <option>Intermediate</option>
                 <option>Advanced</option>
                 <option>Expert</option>
             </select>
+            <span asp-validation-for="Difficulty"></span>
         </div>
         <div class="form-group">
-            <label for="thumbnail">Thumbnail</label>
-            <input type="file" class="form-control-file" id="thumbnail" name="thumbnail">
+            <label asp-for="Thumbnail">Thumbnail</label>
+            <input asp-for="Thumbnail" type="file" class="form-control-file" id="Thumbnail" name="Thumbnail">
+            <span asp-validation-for="Thumbnail"></span>
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+            <label asp-for="Description">Description</label>
+            <textarea asp-for="Description" class="form-control" id="Description" name="Description" rows="3"></textarea>
+            <span asp-validation-for="Description"></span>
         </div>
         <div class="button-wrapper">
             <button type="submit" class="btn btn-primary">Add Lesson</button>

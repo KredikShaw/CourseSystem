@@ -2,21 +2,24 @@
 @{
     ViewData["Title"] = "CreateCard";
 }
+@model CourseSystem.Web.ViewModels.Decks.CardInputModel
 
 <div class="capsule d-flex justify-content-center h-100 mt-4">
     <form method="post">
         <div class="form-group">
-            <label for="name">Front Side</label>
-            <input type="text" class="form-control" id="frontSide" name="frontSide" placeholder="Front Side...">
+            <label asp-for="FrontSide">Front Side</label>
+            <input asp-for="FrontSide" type="text" class="form-control" id="FrontSide" name="FrontSide" placeholder="Front Side...">
+            <span asp-validation-for="FrontSide"></span>
         </div>
         <div class="form-group">
-            <label for="name">Back Side</label>
-            <input type="text" class="form-control" id="backSide" name="backSide" placeholder="Back Side...">
+            <label asp-for="BackSide">Back Side</label>
+            <input asp-for="BackSide" type="text" class="form-control" id="BackSide" name="BackSide" placeholder="Back Side...">
+            <span asp-validation-for="BackSide"></span>
         </div>
         <div class="form-group">
-            <input type="hidden" class="form-control" id="deckId" name="deckId" value="@Model">
+            <input type="hidden" asp-for="DeckId" class="form-control" id="deckId" name="deckId" value="@Model.DeckId">
         </div>
         <button type="submit" class="btn btn-primary button-color" name="submitType" value="another">Add another card</button>
-        <button type="submit" class="btn btn-primary button-color" name="submitType" value="finish" asp-route-from="EditDeck">Add card and Save deck</button>
+        <button type="submit" class="btn btn-primary button-color" name="submitType" value="finish">Add card and Save deck</button>
     </form>
 </div>

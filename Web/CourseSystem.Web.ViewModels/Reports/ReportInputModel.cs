@@ -1,25 +1,20 @@
-﻿namespace CourseSystem.Web.ViewModels.Lessons
+﻿namespace CourseSystem.Web.ViewModels.Reports
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Text;
 
-    using CourseSystem.Data.Models;
-    using CourseSystem.Services.Mapping;
-
-    public class EditLessonViewModel : IMapFrom<Lesson>
+    public class ReportInputModel
     {
-        public string Id { get; set; }
-
-        public string CourseId { get; set; }
-
         [Required(ErrorMessage = "Field is Required")]
         [MinLength(3, ErrorMessage = "Should be at least 3 symbols long")]
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         [Required(ErrorMessage = "Field is Required")]
         [MinLength(20, ErrorMessage = "Should be at least 20 symbols long")]
         public string Description { get; set; }
+
+        public string CourseId { get; set; }
     }
 }

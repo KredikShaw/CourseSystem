@@ -12,6 +12,7 @@
     using CourseSystem.Data.Common.Repositories;
     using CourseSystem.Data.Models;
     using CourseSystem.Services.Mapping;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Configuration;
 
     public class CoursesService : ICoursesService
@@ -20,17 +21,20 @@
         private readonly IRepository<UserCourse> usersCoursesRepository;
         private readonly IConfiguration configuration;
         private readonly ICategoriesService categoriesService;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public CoursesService(
             IDeletableEntityRepository<Course> coursesRepository,
             IRepository<UserCourse> usersCoursesRepository,
             IConfiguration configuration,
-            ICategoriesService categoriesService)
+            ICategoriesService categoriesService,
+            UserManager<ApplicationUser> userManager)
         {
             this.coursesRepository = coursesRepository;
             this.usersCoursesRepository = usersCoursesRepository;
             this.configuration = configuration;
             this.categoriesService = categoriesService;
+            this.userManager = userManager;
         }
 
         public async Task<Course> CreateCourseAsync(string name, string category, string difficulty, string imageUri, string description, string userId)
@@ -51,31 +55,39 @@
             return course;
         }
 
-        public async Task DeleteCourse(string courseId)
+        public async Task DeleteCourse(string courseId, string userId)
         {
             var course = this.coursesRepository
                 .All()
                 .FirstOrDefault(x => x.Id == courseId);
 
-            this.coursesRepository.Delete(course);
-            await this.coursesRepository.SaveChangesAsync();
+            var admins = await this.userManager.GetUsersInRoleAsync("Administrator");
+            var adminIds = admins.Select(x => x.Id).ToList();
+            if (course.UserId == userId || adminIds.Contains(userId))
+            {
+                this.coursesRepository.Delete(course);
+                await this.coursesRepository.SaveChangesAsync();
+            }
         }
 
-        public async Task EditCourse(string courseId, string name, string category, string difficulty, string imageUri, string description)
+        public async Task EditCourse(string courseId, string name, string category, string difficulty, string imageUri, string description, string userId)
         {
             var course = this.coursesRepository.All().FirstOrDefault(c => c.Id == courseId);
-            course.Name = name;
-            course.CategoryId = this.categoriesService.GetCategoryId(category);
-            course.Difficulty = difficulty;
-            if (imageUri != string.Empty)
+            if (course.UserId == userId)
             {
-                course.ThumbnailUrl = imageUri;
+                course.Name = name;
+                course.CategoryId = this.categoriesService.GetCategoryId(category);
+                course.Difficulty = difficulty;
+                if (imageUri != string.Empty)
+                {
+                    course.ThumbnailUrl = imageUri;
+                }
+
+                course.Description = description;
+
+                this.coursesRepository.Update(course);
+                await this.coursesRepository.SaveChangesAsync();
             }
-
-            course.Description = description;
-
-            this.coursesRepository.Update(course);
-            await this.coursesRepository.SaveChangesAsync();
         }
 
         public async Task EnrollStudentAsync(string courseId, string userId)

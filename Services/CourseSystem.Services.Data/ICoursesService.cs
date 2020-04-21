@@ -26,9 +26,9 @@
 
         T GetCourse<T>(string courseId);
 
-        Task EditCourse(string courseId, string name, string category, string difficulty, string imageUri, string description);
+        Task EditCourse(string courseId, string name, string category, string difficulty, string imageUri, string description, string userId);
 
-        Task DeleteCourse(string courseId);
+        Task DeleteCourse(string courseId, string userId);
 
         IEnumerable<T> GetAllCourses<T>();
 

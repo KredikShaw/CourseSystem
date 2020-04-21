@@ -7,6 +7,7 @@
     using CourseSystem.Web.ViewModels.Courses;
     using CourseSystem.Web.ViewModels.Lessons;
     using CourseSystem.Web.ViewModels.Segments;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -23,9 +24,10 @@
             this.userManager = userManager;
         }
 
+        [Authorize]
         public IActionResult CreateLesson(string courseId)
         {
-            var viewModel = new CourseIdViewModel
+            var viewModel = new LessonInputModel
             {
                 CourseId = courseId,
             };
@@ -33,21 +35,28 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateLesson(string title, string topic, int placeInOrder, string courseId)
+        public async Task<IActionResult> CreateLesson(LessonInputModel inputModel)
         {
-            var lesson = await this.lessonsService.CreateLessonAsync(title, topic, courseId);
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
 
-            var viewModel = new LessonViewModel
+            var lesson = await this.lessonsService.CreateLessonAsync(inputModel.Name, inputModel.Description, inputModel.CourseId);
+
+            var viewModel = new SegmentInputModel
             {
                 LessonId = lesson.Id,
-                PlaceInOrder = placeInOrder,
-                CourseId = courseId,
+                PlaceInLessonOrder = inputModel.PlaceInOrder,
+                CourseId = inputModel.CourseId,
             };
 
             return this.RedirectToAction("CreateSegment", "Segments", viewModel);
         }
 
+        [Authorize]
         public IActionResult Study(string lessonId, string courseId)
         {
             var viewModel = new StudySegmentsViewModel
@@ -61,6 +70,7 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         public IActionResult EditLessons(string courseId)
         {
             var viewModel = new StudyLessonsViewModel
@@ -70,25 +80,38 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         public IActionResult EditLesson(string lessonId)
         {
             var viewModel = this.lessonsService.GetLesson<EditLessonViewModel>(lessonId);
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> EditLesson(string lessonId, string courseId, string name, string description)
+        public async Task<IActionResult> EditLesson(EditLessonViewModel inputModel)
         {
-            await this.lessonsService.EditLesson(lessonId, name, description);
-            return this.RedirectToAction("EditSegments", "Segments", new { lessonId });
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
+
+            await this.lessonsService.EditLesson(inputModel.Id, inputModel.Name, inputModel.Description, userId);
+            return this.RedirectToAction("EditSegments", "Segments", new { lessonId = inputModel.Id, courseId = inputModel.CourseId });
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteLesson(string lessonId, string courseId)
         {
-            await this.lessonsService.DeleteLesson(lessonId);
+            var userId = this.userManager.GetUserId(this.User);
+
+            await this.lessonsService.DeleteLesson(lessonId, userId);
             return this.RedirectToAction("EditLessons", "Lessons", new { courseId });
         }
 
+        [Authorize]
         public async Task<IActionResult> CompleteLesson(string lessonId, string courseId)
         {
             var userId = this.userManager.GetUserId(this.User);

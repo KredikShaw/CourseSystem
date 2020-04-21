@@ -52,34 +52,48 @@
             }
         }
 
-        public async Task DeleteLesson(string lessonId)
+        public async Task DeleteLesson(string lessonId, string userId)
         {
             var lesson = this.lessonsRepository
                 .All()
                 .FirstOrDefault(x => x.Id == lessonId);
-
-            this.lessonsRepository.Delete(lesson);
-            await this.lessonsRepository.SaveChangesAsync();
+            var course = this.coursesRepository.All().FirstOrDefault(x => x.Id == lesson.CourseId);
+            if (course.UserId == userId)
+            {
+                this.lessonsRepository.Delete(lesson);
+                await this.lessonsRepository.SaveChangesAsync();
+            }
         }
 
-        public async Task EditLesson(string lessonId, string name, string description)
+        public async Task EditLesson(string lessonId, string name, string description, string userId)
         {
             var lesson = this.lessonsRepository
                 .All()
                 .FirstOrDefault(l => l.Id == lessonId);
+            var course = this.coursesRepository.All().FirstOrDefault(x => x.Id == lesson.CourseId);
+            if (course.UserId == userId)
+            {
+                lesson.Name = name;
+                lesson.Description = description;
 
-            lesson.Name = name;
-            lesson.Description = description;
-
-            this.lessonsRepository.Update(lesson);
-            await this.lessonsRepository.SaveChangesAsync();
+                this.lessonsRepository.Update(lesson);
+                await this.lessonsRepository.SaveChangesAsync();
+            }
         }
 
-        public int GetCompletedLessons(string courseId)
+        public int GetCompletedLessons(string courseId, string userId)
         {
             var lessonIds = this.GetLessons(courseId).Select(x => x.Id);
-            var userLessonIds = this.usersLessonsRepository.All().Select(x => x.LessonId).ToList();
-            var count = lessonIds.Intersect(userLessonIds).Count();
+            var userLessons = this.usersLessonsRepository.All().ToList();
+            var count = 0;
+            foreach (var userLesson in userLessons)
+            {
+                if (lessonIds.Contains(userLesson.LessonId) && userLesson.UserId == userId)
+                {
+                    count++;
+                }
+            }
+
             return count;
         }
 

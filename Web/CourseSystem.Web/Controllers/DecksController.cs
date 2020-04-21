@@ -8,6 +8,7 @@
     using CourseSystem.Data.Models;
     using CourseSystem.Services.Data;
     using CourseSystem.Web.ViewModels.Decks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@
             this.random = random;
         }
 
+        [Authorize]
         public IActionResult MyDecks()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -43,56 +45,79 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             return this.View();
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(string name, string isPublic, IFormFile thumbnail)
+        public async Task<IActionResult> Create(DeckInputModel inputModel)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
             var user = await this.userManager.GetUserAsync(this.User);
-            var thumbnailUrl = this.coursesService.UploadImageToCloudinary(thumbnail.OpenReadStream());
-            var deck = await this.decksService.CreateDeck(name, isPublic, user.Id, thumbnailUrl);
+            var thumbnailUrl = string.Empty;
+            if (inputModel.Thumbnail != null)
+            {
+                thumbnailUrl = this.coursesService.UploadImageToCloudinary(inputModel.Thumbnail.OpenReadStream());
+            }
+
+            var deck = await this.decksService.CreateDeck(inputModel.Name, inputModel.IsPublic, user.Id, thumbnailUrl);
             return this.RedirectToAction("CreateCard", new { deckId = deck.Id });
         }
 
+        [Authorize]
         public IActionResult CreateCard(string deckId)
         {
-            return this.View("CreateCard", deckId);
+            var viewModel = new CardInputModel
+            {
+                DeckId = deckId,
+            };
+
+            return this.View("CreateCard", viewModel);
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateCard(string from, string deckId, string frontSide, string backSide, string submitType)
+        public async Task<IActionResult> CreateCard(CardInputModel inputModel, string submitType)
         {
-            await this.decksService.CreateCard(frontSide, backSide, deckId);
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            await this.decksService.CreateCard(inputModel.FrontSide, inputModel.BackSide, inputModel.DeckId);
             if (submitType == "another")
             {
-                return this.RedirectToAction("CreateCard", new { deckId });
+                return this.RedirectToAction("CreateCard", new { inputModel.DeckId });
             }
             else
             {
-                if (from == "EditDeck")
-                {
-                    return this.RedirectToAction("EditDeck", new { id = deckId });
-                }
-
                 return this.RedirectToAction("MyDecks");
             }
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteDeck(string id)
         {
-            await this.decksService.DeleteDeck(id);
+            var userId = this.userManager.GetUserId(this.User);
+            await this.decksService.DeleteDeck(id, userId);
             return this.RedirectToAction("MyDecks");
         }
 
         public async Task<IActionResult> DeleteCard(string id, string deckId)
         {
-            await this.decksService.DeleteCard(id);
+            var userId = this.userManager.GetUserId(this.User);
+            await this.decksService.DeleteCard(id, userId);
             return this.RedirectToAction("EditDeck", new { id = deckId });
         }
 
+        [Authorize]
         public IActionResult PlayDeck(string deckId, string passed, string npassed, string nfailed)
         {
             int numberOfPassed = 0;
@@ -122,6 +147,7 @@
             return this.View(card);
         }
 
+        [Authorize]
         public IActionResult EditDeck(string id)
         {
             var viewModel = new EditDeckViewModel
@@ -130,21 +156,28 @@
                 Cards = this.decksService.GetCards<EditDeckCardViewModel>(id),
             };
 
-            // TODO: Make difference when adding card from EditDeck
             return this.View(viewModel);
         }
 
+        [Authorize]
         public IActionResult EditCard(string id)
         {
             var viewModel = this.decksService.GetCard<EditDeckCardViewModel>(id);
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> EditCard(string frontSide, string backSide, string cardId, string deckId)
+        public async Task<IActionResult> EditCard(EditDeckCardViewModel inputModel)
         {
-            await this.decksService.UpdateCard(frontSide, backSide, cardId);
-            return this.RedirectToAction("EditDeck", new { id = deckId });
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
+            await this.decksService.UpdateCard(inputModel.FrontSide, inputModel.BackSide, inputModel.Id, userId);
+            return this.RedirectToAction("EditDeck", new { id = inputModel.DeckId });
         }
     }
 }

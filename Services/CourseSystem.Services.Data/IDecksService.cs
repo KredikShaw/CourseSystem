@@ -11,7 +11,7 @@
 
         IEnumerable<T> GetDecks<T>(string userId);
 
-        Task DeleteDeck(string id);
+        Task DeleteDeck(string id, string userId);
 
         Task CreateCard(string frontSide, string backSide, string deckId);
 
@@ -19,8 +19,8 @@
 
         T GetCard<T>(string cardId);
 
-        Task DeleteCard(string id);
+        Task DeleteCard(string id, string userId);
 
-        Task UpdateCard(string frontSide, string backSide, string id);
+        Task UpdateCard(string frontSide, string backSide, string id, string userId);
     }
 }

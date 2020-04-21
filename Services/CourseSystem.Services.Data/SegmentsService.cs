@@ -13,10 +13,14 @@
     public class SegmentsService : ISegmentsService
     {
         private readonly IDeletableEntityRepository<Segment> segmentsRepository;
+        private readonly IDeletableEntityRepository<Lesson> lessonsRepository;
+        private readonly IDeletableEntityRepository<Course> coursesRepository;
 
-        public SegmentsService(IDeletableEntityRepository<Segment> segmentsRepository)
+        public SegmentsService(IDeletableEntityRepository<Segment> segmentsRepository, IDeletableEntityRepository<Lesson> lessonsRepository, IDeletableEntityRepository<Course> coursesRepository)
         {
             this.segmentsRepository = segmentsRepository;
+            this.lessonsRepository = lessonsRepository;
+            this.coursesRepository = coursesRepository;
         }
 
         public async Task CreateSegmentAsync(
@@ -47,14 +51,19 @@
             await this.segmentsRepository.SaveChangesAsync();
         }
 
-        public async Task DeleteSegment(string segmentId)
+        public async Task DeleteSegment(string segmentId, string userId)
         {
             var segment = this.segmentsRepository
                 .All()
                 .FirstOrDefault(s => s.Id == segmentId);
+            var lesson = this.lessonsRepository.All().FirstOrDefault(x => x.Id == segment.LessonId);
+            var course = this.coursesRepository.All().FirstOrDefault(x => x.Id == lesson.CourseId);
 
-            this.segmentsRepository.Delete(segment);
-            await this.segmentsRepository.SaveChangesAsync();
+            if (course.UserId == userId)
+            {
+                this.segmentsRepository.Delete(segment);
+                await this.segmentsRepository.SaveChangesAsync();
+            }
         }
 
         public IEnumerable<T> GetSegments<T>(string lessonId)
@@ -67,32 +76,43 @@
             return segments;
         }
 
-        public async Task UpdateContentSegment(string segmentId, string content)
+        public async Task UpdateContentSegment(string segmentId, string content, string userId)
         {
             var segment = this.segmentsRepository
                 .All()
                 .FirstOrDefault(x => x.Id == segmentId);
 
-            segment.Content = content;
+            var lesson = this.lessonsRepository.All().FirstOrDefault(x => x.Id == segment.LessonId);
+            var course = this.coursesRepository.All().FirstOrDefault(x => x.Id == lesson.CourseId);
 
-            this.segmentsRepository.Update(segment);
-            await this.segmentsRepository.SaveChangesAsync();
+            if (course.UserId == userId)
+            {
+                segment.Content = content;
+
+                this.segmentsRepository.Update(segment);
+                await this.segmentsRepository.SaveChangesAsync();
+            }
         }
 
-        public async Task UpdateTestSegment(string segmentId, string question, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3)
+        public async Task UpdateTestSegment(string segmentId, string question, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string userId)
         {
             var segment = this.segmentsRepository
                 .All()
                 .FirstOrDefault(x => x.Id == segmentId);
+            var lesson = this.lessonsRepository.All().FirstOrDefault(x => x.Id == segment.LessonId);
+            var course = this.coursesRepository.All().FirstOrDefault(x => x.Id == lesson.CourseId);
 
-            segment.Question = question;
-            segment.CorrectAnswer = correctAnswer;
-            segment.WrongAnswer1 = wrongAnswer1;
-            segment.WrongAnswer2 = wrongAnswer2;
-            segment.WrongAnswer3 = wrongAnswer3;
+            if (course.UserId == userId)
+            {
+                segment.Question = question;
+                segment.CorrectAnswer = correctAnswer;
+                segment.WrongAnswer1 = wrongAnswer1;
+                segment.WrongAnswer2 = wrongAnswer2;
+                segment.WrongAnswer3 = wrongAnswer3;
 
-            this.segmentsRepository.Update(segment);
-            await this.segmentsRepository.SaveChangesAsync();
+                this.segmentsRepository.Update(segment);
+                await this.segmentsRepository.SaveChangesAsync();
+            }
         }
     }
 }

@@ -10,78 +10,79 @@
     using System.Threading.Tasks;
     using System.Web;
 
+    using CourseSystem.Data.Models;
     using CourseSystem.Services.Data;
     using CourseSystem.Web.ViewModels.Lessons;
     using CourseSystem.Web.ViewModels.Segments;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class SegmentsController : Controller
     {
         private readonly ISegmentsService segmentsService;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly ICoursesService coursesService;
 
-        public SegmentsController(ISegmentsService segmentsService, ICoursesService coursesService)
+        public SegmentsController(ISegmentsService segmentsService, ICoursesService coursesService, UserManager<ApplicationUser> userManager)
         {
             this.segmentsService = segmentsService;
+            this.userManager = userManager;
             this.coursesService = coursesService;
         }
 
-        public IActionResult CreateSegment(string lessonId, string courseId, int placeInOrder)
+        [Authorize]
+        public IActionResult CreateSegment(SegmentInputModel inputModel)
         {
-            var viewModel = new LessonViewModel
+            var viewModel = new SegmentInputModel
             {
-                LessonId = lessonId,
-                PlaceInOrder = placeInOrder + 1,
-                CourseId = courseId,
+                LessonId = inputModel.LessonId,
+                PlaceInLessonOrder = inputModel.PlaceInLessonOrder + 1,
+                CourseId = inputModel.CourseId,
             };
 
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateSegment(
-            string content,
-            string lessonId,
-            string correctAnswer,
-            string question,
-            string wrongAnswer1,
-            string wrongAnswer2,
-            string wrongAnswer3,
-            string courseId,
-            int placeInOrder,
-            string discriminator,
-            string submitType)
+        public async Task<IActionResult> CreateSegment(SegmentInputModel inputModel, string submitType)
         {
-            if (discriminator == "ContentSegment")
+            if (!this.ModelState.IsValid)
             {
-                var sources = Regex.Matches(content, "data:[^ ]* \\/>");
+                return this.View(inputModel);
+            }
+
+            if (inputModel.Discriminator == "ContentSegment")
+            {
+                var sources = Regex.Matches(inputModel.Content, "data:[^ ]* \\/>");
                 foreach (var source in sources)
                 {
                     var fix = source.ToString();
                     fix = fix.TrimStart('\\').TrimEnd('>').TrimEnd('/').TrimEnd(' ').TrimEnd('\"').Trim();
 
                     var result = this.UploadImage(fix);
-                    content = content.Replace(fix, result);
+                    inputModel.Content = inputModel.Content.Replace(fix, result);
                 }
             }
 
-            await this.segmentsService.CreateSegmentAsync(content, lessonId, question, correctAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3, placeInOrder, discriminator);
+            await this.segmentsService.CreateSegmentAsync(inputModel.Content, inputModel.LessonId, inputModel.Question, inputModel.CorrectAnswer, inputModel.WrongAnswer1, inputModel.WrongAnswer2, inputModel.WrongAnswer3, inputModel.PlaceInLessonOrder, inputModel.Discriminator);
 
             if (submitType == "another")
             {
-                var viewModel = new LessonViewModel
+                var viewModel = new SegmentInputModel
                 {
-                    LessonId = lessonId,
-                    PlaceInOrder = placeInOrder,
-                    CourseId = courseId,
+                    LessonId = inputModel.LessonId,
+                    PlaceInLessonOrder = inputModel.PlaceInLessonOrder,
+                    CourseId = inputModel.CourseId,
                 };
 
                 return this.RedirectToAction("CreateSegment", viewModel);
             }
             else if (submitType == "finishLesson")
             {
-                return this.RedirectToAction("CreateLesson", "Lessons", new { courseId });
+                return this.RedirectToAction("CreateLesson", "Lessons", new { inputModel.CourseId });
             }
             else
             {
@@ -89,26 +90,33 @@
             }
         }
 
+        [Authorize]
         public string UploadImage(string base64)
         {
             var url = this.coursesService.UploadImageToCloudinaryBase64(base64);
             return url;
         }
 
-        public IActionResult EditSegments(string lessonId)
+        [Authorize]
+        public IActionResult EditSegments(string lessonId, string courseId)
         {
             var viewModel = new StudySegmentsViewModel
             {
                 Segments = this.segmentsService.GetSegments<StudySegmentViewModel>(lessonId),
+                LessonId = lessonId,
+                CourseId = courseId,
             };
 
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> EditContentSegment(string segmentId, string lessonId, string content, string submitType)
         {
-            await this.segmentsService.UpdateContentSegment(segmentId, content);
+            var userId = this.userManager.GetUserId(this.User);
+
+            await this.segmentsService.UpdateContentSegment(segmentId, content, userId);
 
             if (submitType == "save")
             {
@@ -120,10 +128,13 @@
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> EditTestSegment(string segmentId, string lessonId, string question, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string submitType)
         {
-            await this.segmentsService.UpdateTestSegment(segmentId, question, correctAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3);
+            var userId = this.userManager.GetUserId(this.User);
+
+            await this.segmentsService.UpdateTestSegment(segmentId, question, correctAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3, userId);
 
             if (submitType == "save")
             {
@@ -135,9 +146,12 @@
             }
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteSegment(string segmentId, string lessonId)
         {
-            await this.segmentsService.DeleteSegment(segmentId);
+            var userId = this.userManager.GetUserId(this.User);
+
+            await this.segmentsService.DeleteSegment(segmentId, userId);
             return this.RedirectToAction("EditSegments", "Segments", new { lessonId });
         }
     }

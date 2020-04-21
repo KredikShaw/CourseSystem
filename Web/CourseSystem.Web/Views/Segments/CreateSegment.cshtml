@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "CreateSegment";
 }
-@model CourseSystem.Web.ViewModels.Lessons.LessonViewModel
+@model CourseSystem.Web.ViewModels.Segments.SegmentInputModel
 
 <link href="~/css/style5.css" rel="stylesheet" />
 
@@ -20,20 +20,21 @@
             <div class="tab-pane fade show active" id="content" role="tabpanel" aria-labelledby="content-tab">
                 <form method="post">
                     <div class="form-group">
-                        <label for="content">Content</label>
-                        <textarea class="form-control" id="content" rows="20" name="content"></textarea>
+                        <label asp-for="Content">Content</label>
+                        <textarea asp-for="Content" class="form-control" id="Content" rows="20" name="Content"></textarea>
+                        <span asp-validation-for="Content"></span>
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="lessonId" name="lessonId" value="@Model.LessonId">
+                        <input asp-for="LessonId" type="hidden" class="form-control" id="lessonId" name="lessonId" value="@Model.LessonId">
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="placeInOrder" name="placeInOrder" value=@Model.PlaceInOrder>
+                        <input asp-for="PlaceInLessonOrder" type="hidden" class="form-control" id="PlaceInLessonOrder" name="PlaceInLessonOrder" value=@Model.PlaceInLessonOrder>
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="courseId" name="courseId" value=@Model.CourseId>
+                        <input asp-for="CourseId" type="hidden" class="form-control" id="courseId" name="courseId" value=@Model.CourseId>
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="discriminator" name="discriminator" value="ContentSegment">
+                        <input asp-for="Discriminator" type="hidden" class="form-control" id="discriminator" name="discriminator" value="ContentSegment">
                     </div>
                     <div class="button-wrapper">
                         <button type="submit" class="btn btn-primary" name="submitType" value="another">Add Another Section</button>
@@ -46,36 +47,41 @@
             <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
                 <form method="post">
                     <div class="form-group">
-                        <label for="question">Question</label>
-                        <input type="text" class="form-control" id="question" name="question" placeholder="Question...">
+                        <label asp-for="Question">Question</label>
+                        <input asp-for="Question" type="text" class="form-control" id="Question" name="Question" placeholder="Question...">
+                        <span asp-validation-for="Question"></span>
                     </div>
                     <div class="form-group">
-                        <label for="correctAnswer">Correct Answer</label>
-                        <input type="text" class="form-control" id="correctAnswer" name="correctAnswer" style="border: 2px solid transparent; border-color:#28a745;" placeholder="Correct Answer...">
+                        <label asp-for="CorrectAnswer" for="correctAnswer">Correct Answer</label>
+                        <input asp-for="CorrectAnswer" type="text" class="form-control" id="CorrectAnswer" name="CorrectAnswer" style="border: 2px solid transparent; border-color:#28a745;" placeholder="Correct Answer...">
+                        <span asp-validation-for="CorrectAnswer"></span>
                     </div>
                     <div class="form-group">
-                        <label for="wrongOption1">Wrong Option</label>
-                        <input type="text" class="form-control" id="wrongOption1" name="wrongAnswer1" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option...">
+                        <label asp-for="WrongAnswer1">Wrong Option</label>
+                        <input asp-for="WrongAnswer1" type="text" class="form-control" id="WrongAnswer1" name="WrongAnswer1" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option...">
+                        <span asp-validation-for="WrongAnswer1"></span>
                     </div>
                     <div class="form-group">
-                        <label for="wrongOption2">Wrong Option</label>
-                        <input type="text" class="form-control" id="wrongOption2" name="wrongAnswer2" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option...">
+                        <label asp-for="WrongAnswer2" for="wrongOption2">Wrong Option</label>
+                        <input asp-for="WrongAnswer2" type="text" class="form-control" id="WrongAnswer2" name="WrongAnswer2" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option...">
+                        <span asp-validation-for="WrongAnswer2"></span>
                     </div>
                     <div class="form-group">
-                        <label for="wrongOption3">Wrong Option</label>
-                        <input type="text" class="form-control" id="wrongOption3" name="wrongAnswer3" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option...">
+                        <label asp-for="WrongAnswer3" for="wrongOption3">Wrong Option</label>
+                        <input asp-for="WrongAnswer3" type="text" class="form-control" id="WrongAnswer3" name="WrongAnswer3" style="border: 2px solid transparent; border-color:#dc3545;" placeholder="Wrong option...">
+                        <span asp-validation-for="WrongAnswer3"></span>
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="lessonId" name="lessonId" value="@Model.LessonId">
+                        <input asp-for="LessonId" type="hidden" class="form-control" id="lessonId" name="lessonId" value="@Model.LessonId">
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="placeInOrder" name="placeInOrder" value=@Model.PlaceInOrder>
+                        <input asp-for="PlaceInLessonOrder" type="hidden" class="form-control" id="PlaceInLessonOrder" name="PlaceInLessonOrder" value=@Model.PlaceInLessonOrder>
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="courseId" name="courseId" value=@Model.CourseId>
+                        <input asp-for="CourseId" type="hidden" class="form-control" id="courseId" name="courseId" value=@Model.CourseId>
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="discriminator" name="discriminator" value="TestSegment">
+                        <input asp-for="Discriminator" type="hidden" class="form-control" id="discriminator" name="discriminator" value="TestSegment">
                     </div>
                     <div class="button-wrapper">
                         <button type="submit" class="btn btn-primary" name="submitType" value="another">Add Another Section</button>

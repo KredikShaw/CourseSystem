@@ -19,12 +19,12 @@
 
         string GetLessonName(string lessonId);
 
-        Task EditLesson(string lessonId, string name, string description);
+        Task EditLesson(string lessonId, string name, string description, string userId);
 
-        Task DeleteLesson(string lessonId);
+        Task DeleteLesson(string lessonId, string userId);
 
         Task CreateUserLesson(string userId, string lessonId);
 
-        int GetCompletedLessons(string courseId);
+        int GetCompletedLessons(string courseId, string userId);
     }
 }

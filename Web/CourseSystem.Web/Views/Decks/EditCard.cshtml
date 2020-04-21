@@ -7,16 +7,19 @@
 <div class="capsule d-flex justify-content-center h-100 mt-4">
     <form method="post">
         <div class="form-group">
-            <label for="name">Front Side</label>
-            <input type="text" class="form-control" id="frontSide" name="frontSide" value="@Model.FrontSide">
+            <label asp-for="FrontSide">Front Side</label>
+            <input asp-for="FrontSide" type="text" class="form-control" id="FrontSide" name="FrontSide" value="@Model.FrontSide">
+            <span asp-validation-for="FrontSide"></span>
         </div>
         <div class="form-group">
-            <label for="name">Back Side</label>
-            <input type="text" class="form-control" id="backSide" name="backSide" value="@Model.BackSide">
+            <label asp-for="BackSide">Back Side</label>
+            <input asp-for="BackSide" type="text" class="form-control" id="BackSide" name="BackSide" value="@Model.BackSide">
+            <span asp-validation-for="BackSide"></span>
         </div>
         <div class="form-group">
-            <input type="hidden" class="form-control" id="deckId" name="cardId" value="@Model.Id">
-            <input type="hidden" class="form-control" id="deckId" name="deckId" value="@Model.DeckId">
+            <input asp-for="Id" type="hidden" class="form-control" id="cardId" name="cardId" value="@Model.Id">
+            <input asp-for="DeckId" type="hidden" class="form-control" id="deckId" name="deckId" value="@Model.DeckId">
+            <span asp-validation-for="DeckId"></span>
         </div>
         <button type="submit" class="btn btn-primary button-color">Save Card</button>
     </form>

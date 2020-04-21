@@ -8,6 +8,8 @@
     using CourseSystem.Web.ViewModels.Categories;
     using CourseSystem.Web.ViewModels.Courses;
     using CourseSystem.Web.ViewModels.Lessons;
+    using CourseSystem.Web.ViewModels.Reports;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -37,6 +39,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize]
         public IActionResult EnrolledCourses()
         {
             var viewModel = new EnrolledCoursesViewModel
@@ -45,12 +48,13 @@
             };
             foreach (var course in viewModel.Courses)
             {
-                course.CompletedLessons = this.lessonsService.GetCompletedLessons(course.Id);
+                course.CompletedLessons = this.lessonsService.GetCompletedLessons(course.Id, this.userManager.GetUserId(this.User));
             }
 
             return this.View(viewModel);
         }
 
+        [Authorize]
         public IActionResult CreatedCourses()
         {
             var viewModel = new CreatedCoursesViewModel
@@ -61,31 +65,39 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         public IActionResult CreateCourse()
         {
-            var viewModel = new CategoriesViewModel
+            var viewModel = new CourseInputModel
             {
                 Categories = this.categoriesService.GetCategories<CategoryViewModel>(),
             };
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateCourse(string name, string category, string difficulty, IFormFile thumbnail, string description)
+        public async Task<IActionResult> CreateCourse(CourseInputModel inputModel)
         {
-            var imageUri = string.Empty;
-            if (thumbnail != null)
+            if (!this.ModelState.IsValid)
             {
-                imageUri = this.coursesService.UploadImageToCloudinary(thumbnail.OpenReadStream());
+                return this.View(inputModel);
+            }
+
+            var imageUri = string.Empty;
+            if (inputModel.Thumbnail != null)
+            {
+                imageUri = this.coursesService.UploadImageToCloudinary(inputModel.Thumbnail.OpenReadStream());
             }
 
             var userId = this.userManager.GetUserId(this.User);
 
-            var course = await this.coursesService.CreateCourseAsync(name, category, difficulty, imageUri, description, userId);
+            var course = await this.coursesService.CreateCourseAsync(inputModel.Name, inputModel.Category, inputModel.Difficulty, imageUri, inputModel.Description, userId);
 
             return this.RedirectToAction(actionName: "CreateLesson", controllerName: "Lessons", routeValues: new CourseIdViewModel { CourseId = course.Id });
         }
 
+        [Authorize]
         public IActionResult DiscoverAll()
         {
             var viewModel = new DiscoverCoursesViewModel
@@ -95,6 +107,7 @@
             return this.View("Discover", viewModel); // TODO: More info button on discover courses, send to another page for the course
         }
 
+        [Authorize]
         public IActionResult DiscoverByCategory(int categoryId)
         {
             var viewModel = new DiscoverCoursesViewModel
@@ -104,12 +117,14 @@
             return this.View("Discover", viewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> Enroll(string courseId)
         {
             await this.coursesService.EnrollStudentAsync(courseId, this.userManager.GetUserId(this.User));
             return this.RedirectToAction("EnrolledCourses");
         }
 
+        [Authorize]
         public IActionResult Study(string courseId)
         {
             var viewModel = new StudyLessonsViewModel
@@ -120,6 +135,7 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         public IActionResult EditCourse(string courseId)
         {
             var viewModel = new EditCourseWithCategoryViewModel<EditCourseViewModel>()
@@ -130,33 +146,44 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> EditCourse(string courseId, string name, string category, string difficulty, IFormFile thumbnail, string description)
+        public async Task<IActionResult> EditCourse(EditCourseViewModel inputModel)
         {
-            var imageUri = string.Empty;
-            if (thumbnail != null)
+            if (!this.ModelState.IsValid)
             {
-                imageUri = this.coursesService.UploadImageToCloudinary(thumbnail.OpenReadStream());
+                return this.View(inputModel);
             }
 
-            await this.coursesService.EditCourse(courseId, name, category, difficulty, imageUri, description);
+            var imageUri = string.Empty;
+            if (inputModel.Thumbnail != null)
+            {
+                imageUri = this.coursesService.UploadImageToCloudinary(inputModel.Thumbnail.OpenReadStream());
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
+
+            await this.coursesService.EditCourse(inputModel.Id, inputModel.Name, inputModel.CategoryName, inputModel.Difficulty, imageUri, inputModel.Description, userId);
 
             var viewModel = new CourseIdViewModel
             {
-                CourseId = courseId,
+                CourseId = inputModel.Id,
             };
             return this.RedirectToAction("EditLessons", "Lessons", viewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteCourse(string courseId)
         {
-            await this.coursesService.DeleteCourse(courseId);
+            var userId = this.userManager.GetUserId(this.User);
+            await this.coursesService.DeleteCourse(courseId, userId);
             return this.Redirect("/Courses/CreatedCourses");
         }
 
+        [Authorize]
         public IActionResult Report(string courseId)
         {
-            var viewModel = new CourseIdViewModel
+            var viewModel = new ReportInputModel
             {
                 CourseId = courseId,
             };
@@ -164,11 +191,17 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Report(string title, string description, string courseId)
+        public async Task<IActionResult> Report(ReportInputModel inputModel)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
             var userId = this.userManager.GetUserId(this.User);
-            await this.reportsService.CreateReportAsync(title, description, courseId, userId);
+            await this.reportsService.CreateReportAsync(inputModel.Title, inputModel.Description, inputModel.CourseId, userId);
             return this.RedirectToAction("EnrolledCourses");
         }
     }

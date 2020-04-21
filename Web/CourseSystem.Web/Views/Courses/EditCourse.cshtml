@@ -8,12 +8,13 @@
 <div class="wrapper">
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="name">Course Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="@Model.Course.Name">
+            <label asp-for="Course.Name">Course Name</label>
+            <input asp-for="Course.Name" type="text" class="form-control" id="Name" name="Name" value="@Model.Course.Name">
+            <span asp-validation-for="Course.Name"></span>
         </div>
         <div class="form-group">
-            <label for="category">Category</label>
-            <select class="form-control" id="category" name="category" value="@Model.Course.CategoryName">
+            <label asp-for="Course.CategoryName">Category</label>
+            <select asp-for="Course.CategoryName" class="form-control" id="CategoryName" name="CategoryName" value="@Model.Course.CategoryName">
                 @foreach (var category in Model.Categories)
                 {
                     if (category.Name == Model.Course.CategoryName)
@@ -26,28 +27,32 @@
                     }
                 }
             </select>
+            <span asp-validation-for="Course.CategoryName"></span>
         </div>
         <div class="form-group">
-            <label for="difficulty">Difficulty</label>
-            <select class="form-control" id="difficulty" name="difficulty" value="@Model.Course.Difficulty">
+            <label asp-for="Course.Difficulty">Difficulty</label>
+            <select asp-for="Course.Difficulty" class="form-control" id="Difficulty" name="Difficulty" value="@Model.Course.Difficulty">
                 <option>Absolute Beginner</option>
                 <option>Beginner</option>
                 <option>Intermediate</option>
                 <option>Advanced</option>
                 <option>Expert</option>
             </select>
+            <span asp-validation-for="Course.Difficulty"></span>
         </div>
         <div class="form-group">
-            <label for="thumbnail">Thumbnail</label>
-            <input type="file" class="form-control-file" id="thumbnail" name="thumbnail">
+            <label asp-for="Course.Thumbnail">Thumbnail</label>
+            <input asp-for="Course.Thumbnail" type="file" class="form-control-file" id="thumbnail" name="thumbnail">
             <img src="@Model.Course.ThumbnailUrl" alt="No Thumbnail" width="500" class="mt-4" />
+            <span asp-validation-for="Course.Thumbnail"></span>
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3">@Model.Course.Description</textarea>
+            <label asp-for="Course.Description">Description</label>
+            <textarea asp-for="Course.Description" class="form-control" id="Description" name="Description" rows="3">@Model.Course.Description</textarea>
+            <span asp-validation-for="Course.Description"></span>
         </div>
         <div class="form-group">
-            <input type="hidden" class="form-control" id="courseId" name="courseId" value="@Model.Course.Id">
+            <input asp-for="Course.Id" type="hidden" class="form-control" id="courseId" name="Id" value="@Model.Course.Id">
         </div>
         <div class="button-wrapper">
             <button type="submit" class="btn btn-primary" asp-action="EditCourse" asp-controller="Courses">Save And Edit Lessons</button>
