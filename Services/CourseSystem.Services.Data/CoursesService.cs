@@ -62,7 +62,12 @@
                 .FirstOrDefault(x => x.Id == courseId);
 
             var admins = await this.userManager.GetUsersInRoleAsync("Administrator");
-            var adminIds = admins.Select(x => x.Id).ToList();
+            var adminIds = new List<string>();
+            if (admins != null)
+            {
+                adminIds = admins.Select(x => x.Id).ToList();
+            }
+
             if (course.UserId == userId || adminIds.Contains(userId))
             {
                 this.coursesRepository.Delete(course);

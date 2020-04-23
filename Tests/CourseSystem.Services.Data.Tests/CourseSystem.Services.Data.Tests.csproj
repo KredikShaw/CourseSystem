@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\CourseSystem.Data\CourseSystem.Data.csproj" />
     <ProjectReference Include="..\..\Services\CourseSystem.Services.Data\CourseSystem.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Web\CourseSystem.Web.ViewModels\CourseSystem.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
