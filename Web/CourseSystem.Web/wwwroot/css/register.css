@@ -1,0 +1,36 @@
+@import url('~/lib/bootstrap/dist/css/bootstrap.css');
+@import url('~/fontawesome/css/all.css');
+
+html {
+    background-color: #2e4057;
+}
+
+div.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2e4057;
+}
+
+form {
+    width: 40%;
+}
+
+    form p, form div div div label {
+        color: #f6d8ae !important;
+    }
+
+    form button {
+        background-color: #f4d35e !important;
+        color: #083d77 !important;
+    }
+
+    form div a {
+        color: #f4d35e;
+    }
+
+@media(max-width: 992px) {
+    form {
+        width: 100%;
+    }
+}

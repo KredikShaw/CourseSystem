@@ -23,15 +23,15 @@
         @foreach (var course in Model.Courses)
         {
             <div class="course" style="position:relative;">
-                <a class="btn" id="report" asp-controller="Courses" asp-action="Report" asp-route-courseId="@course.Id" style="position:absolute; left:94%;" data-toggle="tooltip" data-placement="top" title="Report">
+                <a class="btn" id="report" asp-controller="Courses" asp-action="Report" asp-route-courseId="@course.Id" data-toggle="tooltip" data-placement="top" title="Report">
                     <i style="font-size:2.5rem;" class="fas fa-exclamation-circle text-danger"></i>
                 </a>
                 <img src="@course.ThumbnailUrl" alt="No Thumbnail">
                 <div>
-                    <h1 class="title">@course.Name</h1>
+                    <h1 class="title" style="word-wrap:anywhere;">@course.Name</h1>
                     <div class="lower">
                         <h3>@course.CompletedLessons/@course.LessonsCount</h3>
-                        <h3>@course.Difficulty</h3>
+                        <h3 style="word-wrap:anywhere;">@course.Difficulty</h3>
                         <a class="btn btn-primary btn-lg" asp-action="Study" asp-controller="Courses" asp-route-courseId="@course.Id" role="button">Study</a>
                     </div>
                 </div>

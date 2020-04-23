@@ -38,6 +38,11 @@ body {
     min-width: 100vw;
 }
 
+#report {
+   position:absolute;
+   left:94%;
+}
+
 .searchbar {
     margin-top: 2em;
     height: 60px;
@@ -163,8 +168,15 @@ div.next {
 
     div.lower {
         flex-wrap: wrap;
-        height: 8em;
+        height: 4em;
         justify-content: flex-start;
+    }
+    div.lower a{
+        align-self:center;
+    } 
+    #report {
+        position: absolute;
+        left: 85%;
     }
 }
 
@@ -172,7 +184,6 @@ div.next {
     #sidebar-wrapper {
         margin-left: 0;
     }
-
     #page-content-wrapper {
         min-width: 0;
         width: 100%;
