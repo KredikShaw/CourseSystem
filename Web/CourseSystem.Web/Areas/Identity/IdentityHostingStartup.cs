@@ -1,4 +1,5 @@
 ﻿using System;
+
 using CourseSystem.Data;
 using CourseSystem.Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: HostingStartup(typeof(CourseSystem.Web.Areas.Identity.IdentityHostingStartup))]
+
 namespace CourseSystem.Web.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup

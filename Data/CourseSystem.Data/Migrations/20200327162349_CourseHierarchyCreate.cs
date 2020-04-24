@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace CourseSystem.Data.Migrations
+﻿namespace CourseSystem.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class CourseHierarchyCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

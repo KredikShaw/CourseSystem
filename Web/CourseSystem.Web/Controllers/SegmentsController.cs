@@ -54,7 +54,7 @@
                 return this.View(inputModel);
             }
 
-            if (inputModel.Discriminator == "ContentSegment")
+            if (inputModel.Discriminator == "ContentSegment" && inputModel.Content != null)
             {
                 var sources = Regex.Matches(inputModel.Content, "data:[^ ]* \\/>");
                 foreach (var source in sources)

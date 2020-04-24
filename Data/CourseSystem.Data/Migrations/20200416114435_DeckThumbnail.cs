@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace CourseSystem.Data.Migrations
+﻿namespace CourseSystem.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class DeckThumbnail : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

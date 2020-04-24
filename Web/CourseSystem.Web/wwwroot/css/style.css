@@ -47,12 +47,12 @@ div.heading-image-container {
 }
 
     div.heading-image-container h1 {
-        width: 40%;
+        width: 100%;
         color: white;
         text-shadow: 0.075em 0.075em 0.075em black;
         text-align: center;
         font-size: 3.5em;
-        margin-top: 2em;
+        margin: 2em 0 1em 0;
     }
 
     div.heading-image-container a {
@@ -61,6 +61,16 @@ div.heading-image-container {
         font-size: 2em;
         margin-bottom: 4em;
         box-shadow: 0px 0px 25px 5px rgba(0,0,0,0.75);
+    }
+
+    div.heading-image-container img {
+        height: 10em;
+        filter: drop-shadow(3px 3px 2px #222);
+    }
+
+    div.heading-image-container svg {
+        position: relative;
+        top: -5.6em
     }
 
 div.break {
@@ -111,7 +121,7 @@ section.notes {
     display: flex;
     justify-content: center;
     height: 100%;
-    margin-bottom:3em;
+    margin-bottom: 3em;
 }
 
 div.footer-swoosh {
@@ -143,7 +153,7 @@ nav div ul {
     margin-right: 10em;
 }
 
-.button-color{
+.button-color {
     background-color: #2e4057;
 }
 
@@ -221,8 +231,8 @@ nav a img {
     overflow: hidden;
     padding: 3em;
     display: flex;
-    height:100%;
-    flex-wrap:wrap;
+    height: 100%;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
     border-radius: 1.5em;
@@ -375,7 +385,27 @@ nav a img {
             z-index: 1;
         }
 
-     .li div {
-        width:1em;
+    .li div {
+        width: 1em;
+    }
+
+    div.heading-image-container svg {
+        position: relative;
+        top: -5.6em
     }
 }
+
+@media(max-width: 768px) {
+    div.heading-image-container svg {
+        position: relative;
+        top: -5.6em
+    }
+}
+
+@media(max-width: 578px){
+    div.heading-image-container svg {
+        position: relative;
+        top: -10.4em
+    }
+}
+

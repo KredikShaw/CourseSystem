@@ -7,6 +7,7 @@
     public class UserLesson
     {
         public static IEnumerable<object> Count { get; set; }
+
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
