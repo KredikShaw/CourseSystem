@@ -1,9 +1,5 @@
 ﻿namespace CourseSystem.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     using CourseSystem.Services.Data;
     using CourseSystem.Web.ViewModels.Categories;

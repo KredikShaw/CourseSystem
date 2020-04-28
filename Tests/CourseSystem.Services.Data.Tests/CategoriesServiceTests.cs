@@ -1,9 +1,7 @@
 ﻿namespace CourseSystem.Services.Data.Tests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     using CourseSystem.Data.Common.Repositories;
     using CourseSystem.Data.Models;

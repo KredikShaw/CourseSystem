@@ -9,24 +9,26 @@
     using CourseSystem.Services.Data;
     using CourseSystem.Web.ViewModels.Decks;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class DecksController : Controller // TODO: Take the Card logic out of the deck logic and into it's own controller, service...
     {
         private readonly IDecksService decksService;
+        private readonly ICardsService cardsService;
         private readonly ICoursesService coursesService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly Random random;
 
         public DecksController(
             IDecksService decksService,
+            ICardsService cardsService,
             ICoursesService coursesService,
             UserManager<ApplicationUser> userManager,
             Random random)
         {
             this.decksService = decksService;
+            this.cardsService = cardsService;
             this.coursesService = coursesService;
             this.userManager = userManager;
             this.random = random;
@@ -46,14 +48,14 @@
         }
 
         [Authorize]
-        public IActionResult Create()
+        public IActionResult CreateDeck()
         {
             return this.View();
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(DeckInputModel inputModel)
+        public async Task<IActionResult> CreateDeck(DeckInputModel inputModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -68,38 +70,7 @@
             }
 
             var deck = await this.decksService.CreateDeck(inputModel.Name, inputModel.IsPublic, user.Id, thumbnailUrl);
-            return this.RedirectToAction("CreateCard", new { deckId = deck.Id });
-        }
-
-        [Authorize]
-        public IActionResult CreateCard(string deckId)
-        {
-            var viewModel = new CardInputModel
-            {
-                DeckId = deckId,
-            };
-
-            return this.View("CreateCard", viewModel);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> CreateCard(CardInputModel inputModel, string submitType)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(inputModel);
-            }
-
-            await this.decksService.CreateCard(inputModel.FrontSide, inputModel.BackSide, inputModel.DeckId);
-            if (submitType == "another")
-            {
-                return this.RedirectToAction("CreateCard", new { inputModel.DeckId });
-            }
-            else
-            {
-                return this.RedirectToAction("MyDecks");
-            }
+            return this.RedirectToAction("CreateCard", "Cards", new { deckId = deck.Id });
         }
 
         [Authorize]
@@ -108,13 +79,6 @@
             var userId = this.userManager.GetUserId(this.User);
             await this.decksService.DeleteDeck(id, userId);
             return this.RedirectToAction("MyDecks");
-        }
-
-        public async Task<IActionResult> DeleteCard(string id, string deckId)
-        {
-            var userId = this.userManager.GetUserId(this.User);
-            await this.decksService.DeleteCard(id, userId);
-            return this.RedirectToAction("EditDeck", new { id = deckId });
         }
 
         [Authorize]
@@ -137,7 +101,7 @@
                 numberOfFailed++;
             }
 
-            var allCards = this.decksService.GetCards<CardViewModel>(deckId).ToList();
+            var allCards = this.cardsService.GetCards<CardViewModel>(deckId).ToList();
 
             var randomIndex = this.random.Next(0, allCards.Count);
 
@@ -153,31 +117,10 @@
             var viewModel = new EditDeckViewModel
             {
                 DeckId = id,
-                Cards = this.decksService.GetCards<EditDeckCardViewModel>(id),
+                Cards = this.cardsService.GetCards<EditDeckCardViewModel>(id),
             };
 
             return this.View(viewModel);
-        }
-
-        [Authorize]
-        public IActionResult EditCard(string id)
-        {
-            var viewModel = this.decksService.GetCard<EditDeckCardViewModel>(id);
-            return this.View(viewModel);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> EditCard(EditDeckCardViewModel inputModel)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(inputModel);
-            }
-
-            var userId = this.userManager.GetUserId(this.User);
-            await this.decksService.UpdateCard(inputModel.FrontSide, inputModel.BackSide, inputModel.Id, userId);
-            return this.RedirectToAction("EditDeck", new { id = inputModel.DeckId });
         }
     }
 }

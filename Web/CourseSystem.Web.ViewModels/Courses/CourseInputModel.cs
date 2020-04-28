@@ -1,9 +1,7 @@
 ﻿namespace CourseSystem.Web.ViewModels.Courses
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     using CourseSystem.Web.ViewModels.Categories;
     using Microsoft.AspNetCore.Http;

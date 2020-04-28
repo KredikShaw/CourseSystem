@@ -7,32 +7,14 @@
     using CourseSystem.Data.Common.Repositories;
     using CourseSystem.Data.Models;
     using CourseSystem.Services.Mapping;
-    using Microsoft.AspNetCore.Identity;
 
     public class DecksService : IDecksService
     {
         private readonly IDeletableEntityRepository<Deck> decksRepository;
-        private readonly IDeletableEntityRepository<Card> cardsRepository;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public DecksService(IDeletableEntityRepository<Deck> decksRepository, IDeletableEntityRepository<Card> cardsRepository, UserManager<ApplicationUser> userManager)
+        public DecksService(IDeletableEntityRepository<Deck> decksRepository)
         {
             this.decksRepository = decksRepository;
-            this.cardsRepository = cardsRepository;
-            this.userManager = userManager;
-        }
-
-        public async Task CreateCard(string frontSide, string backSide, string deckId)
-        {
-            var card = new Card
-            {
-                FrontSide = frontSide,
-                BackSide = backSide,
-                DeckId = deckId,
-            };
-
-            await this.cardsRepository.AddAsync(card);
-            await this.cardsRepository.SaveChangesAsync();
         }
 
         public async Task<Deck> CreateDeck(string name, string isPublic, string userId, string thumbnailUrl)
@@ -58,17 +40,6 @@
             return deck;
         }
 
-        public async Task DeleteCard(string id, string userId)
-        {
-            var card = this.cardsRepository.All().FirstOrDefault(x => x.Id == id);
-            var deck = this.decksRepository.All().FirstOrDefault(x => x.Id == card.DeckId);
-            if (deck.UserId == userId)
-            {
-                this.cardsRepository.Delete(card);
-                await this.cardsRepository.SaveChangesAsync();
-            }
-        }
-
         public async Task DeleteDeck(string id, string userId)
         {
             var deck = this.decksRepository.All().FirstOrDefault(x => x.Id == id);
@@ -77,27 +48,6 @@
                 this.decksRepository.Delete(deck);
                 await this.decksRepository.SaveChangesAsync();
             }
-        }
-
-        public T GetCard<T>(string cardId)
-        {
-            var card = this.cardsRepository.All()
-                .Where(x => x.Id == cardId)
-                .To<T>()
-                .FirstOrDefault();
-
-            return card;
-        }
-
-        public IEnumerable<T> GetCards<T>(string deckId)
-        {
-            var cards = this.cardsRepository.All()
-                .Where(x => x.DeckId == deckId)
-                .OrderBy(x => x.FrontSide)
-                .To<T>()
-                .ToList();
-
-            return cards;
         }
 
         public IEnumerable<T> GetDecks<T>(string userId)
@@ -110,22 +60,6 @@
                 .ToList();
 
             return decks;
-        }
-
-        public async Task UpdateCard(string frontSide, string backSide, string id, string userId)
-        {
-            var card = this.cardsRepository.All()
-                .FirstOrDefault(x => x.Id == id);
-
-            var deck = this.decksRepository.All().FirstOrDefault(x => x.Id == card.DeckId);
-            if (deck.UserId == userId)
-            {
-                card.FrontSide = frontSide;
-                card.BackSide = backSide;
-
-                this.cardsRepository.Update(card);
-                await this.cardsRepository.SaveChangesAsync();
-            }
         }
     }
 }

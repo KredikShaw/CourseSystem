@@ -7,15 +7,15 @@
 <section class="d-flex flex-wrap justify-content-start">
     <section class="d-flex justify-content-center align-items-center p-3 m-4 w-100">
         <h1 class="btn btn-primary font-weight-bolder" style="font-size:2.5rem; background-color:#2e4057">
-            <a asp-controller="Decks" asp-action="CreateCard" asp-route-deckId="@Model.DeckId">+</a>
+            <a asp-controller="Cards" asp-action="CreateCard" asp-route-deckId="@Model.DeckId">+</a>
         </h1>
     </section>
     @foreach (var card in Model.Cards)
     {
         <div class="card shadow text-center" id="flip" style="width: 17rem; margin: 1em;">
             <div class="card-header">
-                <a asp-action="DeleteCard" asp-route-id="@card.Id" asp-route-deckId="@Model.DeckId" class="btn btn-danger">Delete</a>
-                <a asp-action="EditCard" asp-route-id="@card.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="DeleteCard" asp-controller="Cards" asp-route-id="@card.Id" asp-route-deckId="@Model.DeckId" class="btn btn-danger">Delete</a>
+                <a asp-action="EditCard" asp-controller="Cards" asp-route-id="@card.Id" class="btn btn-warning">Edit</a>
             </div>
             <div class="card-body">
                 <h2 class="card-title">@card.FrontSide</h2>

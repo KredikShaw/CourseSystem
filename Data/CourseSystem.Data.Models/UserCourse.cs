@@ -1,9 +1,5 @@
 ﻿namespace CourseSystem.Data.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     public class UserCourse
     {
         public string UserId { get; set; }

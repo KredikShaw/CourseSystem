@@ -1,6 +1,5 @@
 ﻿namespace CourseSystem.Web.ViewModels.Courses
 {
-    using System.Collections.Generic;
 
     using CourseSystem.Data.Models;
     using CourseSystem.Services.Mapping;

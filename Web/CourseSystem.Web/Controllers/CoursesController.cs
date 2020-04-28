@@ -1,6 +1,5 @@
 ﻿namespace CourseSystem.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using CourseSystem.Data.Models;
@@ -10,7 +9,6 @@
     using CourseSystem.Web.ViewModels.Lessons;
     using CourseSystem.Web.ViewModels.Reports;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 

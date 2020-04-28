@@ -1,9 +1,6 @@
 ﻿namespace CourseSystem.Web.ViewModels.Segments
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     public class SegmentInputModel
     {
