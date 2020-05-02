@@ -145,9 +145,15 @@
 
         public IEnumerable<T> GetCoursesByCategory<T>(int categoryId, string userId)
         {
+            var userCourses = this.usersCoursesRepository
+                .All()
+                .Where(x => x.UserId == userId)
+                .Select(x => x.CourseId)
+                .ToList();
+
             var categories = this.coursesRepository
                 .All()
-                .Where(x => x.CategoryId == categoryId)
+                .Where(x => x.CategoryId == categoryId && !userCourses.Contains(x.Id))
                 .To<T>()
                 .ToList();
 
